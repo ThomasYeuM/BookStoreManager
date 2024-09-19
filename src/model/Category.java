@@ -6,7 +6,7 @@ public class Category implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
-	private int id;
+	private Integer id;
 	private String name;
 	private String description;
 	public Category() {
@@ -17,15 +17,11 @@ public class Category implements Serializable{
 		this.description = "";
 	}
 	public Category(int id, String name, String description) {
-		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
 	}
-	@Override
-	public String toString() {
-		return "Category [id=" + id + ", name=" + name + ", description=" + description + "]";
-	}
+
 	public int getId() {
 		return id;
 	}
