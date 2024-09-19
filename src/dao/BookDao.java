@@ -52,10 +52,6 @@ public class BookDao implements DAO<Book> {
 		return true;
 	}
 
-	@Override
-	public T get(Predicate<T> predicate) throws ClassNotFoundException, IOException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 }
