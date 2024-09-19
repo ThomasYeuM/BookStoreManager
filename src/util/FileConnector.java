@@ -11,7 +11,7 @@ import java.util.List;
 
 public class FileConnector<T> {
 	public void writeToFile(String filePath, List<T> data) throws IOException {
-		File fileName = new File(new File("").getAbsolutePath().concat(filePath));
+		File fileName = new File(filePath);
 		try (FileOutputStream fos = new FileOutputStream(fileName);
 				ObjectOutputStream oos = new ObjectOutputStream(fos)) {
 			oos.writeObject(data);
@@ -20,7 +20,7 @@ public class FileConnector<T> {
 
 	@SuppressWarnings("unchecked")
 	public List<T> readFromFile(String filePath) throws IOException, ClassNotFoundException {
-		File file = new File(new File("").getAbsolutePath().concat(filePath));
+		File file = new File(filePath);
 		if (!file.exists() || file.length() == 0) {
 			return new ArrayList<>();
 		}
