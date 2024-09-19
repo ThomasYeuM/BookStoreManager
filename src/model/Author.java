@@ -6,18 +6,19 @@ public class Author implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	private String name; 
-	private char gender;
+	private String gender;
 	private String email;
+	
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
-	public char getGender() {
+	public String getGender() {
 		return gender;
 	}
-	public void setGender(char gender) {
+	public void setGender(String gender) {
 		this.gender = gender;
 	}
 	public String getEmail() {
@@ -26,7 +27,7 @@ public class Author implements Serializable{
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public Author(String name, char gender, String email) {
+	public Author(String name, String gender, String email) {
 		this.name = name;
 		this.gender = gender;
 		this.email = email;

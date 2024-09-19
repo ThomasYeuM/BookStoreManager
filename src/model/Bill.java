@@ -1,16 +1,13 @@
 package model;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 
 public class Bill implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	private String id;
-	private String name;
 	private Customer customer;
 	private int adminID;
 	private Date date;
@@ -19,24 +16,19 @@ public class Bill implements Serializable{
 	public Bill() {
 	}
 	
-	public Bill(String id, String name, Customer customer, int adminID, Date date, HashMap<Book, Integer> books, double productExpense) {
+	public Bill(String id, Customer customer, int adminID, Date date, HashMap<Book, Integer> books) {
 		this.id = id;
-		this.name = name;
 		this.customer = customer;
 		this.adminID = adminID;
 		this.date = date;
 		Books = books;
-		ProductExpense = productExpense;
-		calcTotal();
 	}
 
 	public String getId() {
 		return id;
 	}
 
-	public String getName() {
-		return name;
-	}
+
 
 	public Customer getCustomer() {
 		return customer;
@@ -62,9 +54,6 @@ public class Bill implements Serializable{
 		this.id = id;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
@@ -83,16 +72,27 @@ public class Bill implements Serializable{
 	}
 
 	public void setProductExpense(double productExpense) {
-		for (Book book : Books.keySet()) {
-			productExpense += book.getPrice() * Books.get(book);
-		}
+		
+			
 		this.ProductExpense = productExpense;
 	}
 	
 	public double calcTotal() {
+		double productExpense = 0;
+		for (Book book : Books.keySet()) {
+			productExpense += book.getPrice() * Books.get(book);
+		}
 		String type = customer.getMemberType();
 		double productDiscount = DiscountRate.getProductDiscountRate(type);
-		return ( (this.ProductExpense - this.ProductExpense*productDiscount));
+		return ( (productExpense - productExpense*productDiscount));
 		
 	}
+
+	@Override
+	public String toString() {
+		return "Bill [id=" + id + ", customer=" + customer + ", adminID=" + adminID + ", date=" + date + ", Books="
+				+ Books + ", Price =" + calcTotal() + "]";
+	}
+
+	
 }
