@@ -7,7 +7,7 @@ import model.Category;
 import util.FileConnector;
 
 public class CategoryDao implements DAO<Category> {
-	private final String FILE_PATH = "\"D:\\Java\\BookManager\\BookManagermant\\src\\db\\categories.txt\"";
+	private final String FILE_PATH = "db/categories.txt";
 	private final FileConnector<Category> fileConnector = new FileConnector<Category>();
 
 	
