@@ -29,7 +29,6 @@ public class Bill implements Serializable{
 	}
 
 
-
 	public Customer getCustomer() {
 		return customer;
 	}
