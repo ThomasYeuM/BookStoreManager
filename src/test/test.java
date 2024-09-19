@@ -1,6 +1,6 @@
 package test;
 
-import module.Book;
+import model.Book;
 
 public class test {
 	public static void main(String[] args) {
