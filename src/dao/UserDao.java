@@ -8,7 +8,7 @@ import model.User;
 
 
 public class UserDao implements DAO<User>{
-	String FILE_PATH = "db/users.txt";
+	String FILE_PATH = "src/db/users.txt";
 	private final FileConnector<User> fileConnector = new FileConnector<User>();
 
 	@Override
@@ -20,12 +20,12 @@ public class UserDao implements DAO<User>{
 	public boolean add(User userAdd) throws ClassNotFoundException, IOException {
 		List<User> users = getAll();
 		for (User u : users ) {
-			if ( u.getId() == userAdd.getId() ) {
+			if ( u.getUsername() == userAdd.getUsername() || u.getEmail() == userAdd.getEmail() ) {
 				return false;
 			}
 		}
 		fileConnector.appendObject(FILE_PATH, userAdd);
-		return false;
+		return true;
 	}
 
 	@Override

@@ -7,7 +7,7 @@ import model.Category;
 import util.FileConnector;
 
 public class CategoryDAO implements DAO<Category> {
-	private final String FILE_PATH = "db/categories.bin";
+	private final String FILE_PATH = "src/db/categories.bin";
 	private final FileConnector<Category> fileConnector = new FileConnector<Category>();
 
 

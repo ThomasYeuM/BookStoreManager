@@ -7,11 +7,17 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.Image;
+
 import javax.swing.JTextField;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import util.FormUtils;
@@ -26,11 +32,22 @@ public class LoginView extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 500);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-
+		
+		//Logo
+		try {
+            Image image = ImageIO.read(new File("src/resources/logo.png"));
+            JLabel label = new JLabel(new ImageIcon(image));
+            label.setBounds(60, 79, 398, 268);
+            contentPane.add(label);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+		
 		JLabel lblNewLabel = new JLabel("Tên đăng nhập");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblNewLabel.setBounds(519, 77, 237, 35);
