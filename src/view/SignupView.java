@@ -27,25 +27,6 @@ public class SignupView extends JFrame {
 	private JTextField ConfirmPasswordTextField;
 	private JTextField EmailTextField;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					SignupView frame = new SignupView();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	public SignupView() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 500);
@@ -87,8 +68,10 @@ public class SignupView extends JFrame {
 		SignupButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(!FormUtils.ValidateForm(contentPane)) {
-					JOptionPane.showMessageDialog(SignupView.this, "Please fill in all required fields.");
+					JOptionPane.showMessageDialog(SignupView.this, "Vui lòng nhập đầy đủ thông tin", "Error",
+							JOptionPane.ERROR_MESSAGE);
 					return;
+					
 				}
 				
 				String username = UsernameField.getText();
@@ -113,6 +96,14 @@ public class SignupView extends JFrame {
 		contentPane.add(lblNewLabel_1);
 		
 		JButton RegisterButton = new JButton("Đăng nhập");
+		RegisterButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				LoginView lg = new LoginView();
+				lg.setVisible(true);
+				dispose();
+			}
+		});
 		RegisterButton.setBounds(656, 424, 104, 23);
 		contentPane.add(RegisterButton);
 		
