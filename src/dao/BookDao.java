@@ -2,6 +2,7 @@ package dao;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.function.Predicate;
 
 import model.Book;
 import util.FileConnector;
@@ -50,6 +51,17 @@ public class BookDao implements DAO<Book> {
 		books.removeIf(book -> book.getId() == deletedBook.getId());
 		fileConnector.writeToFile(FILE_PATH, books);
 		return true;
+	}
+
+	@Override
+	public Book get(Predicate<Book> predicate) throws ClassNotFoundException, IOException {
+		List<Book> books = fileConnector.readFromFile(FILE_PATH);
+		for (Book book : books) {
+			if (predicate.test(book)) {
+				return book;
+			}
+		}
+		return null;
 	}
 
 
