@@ -2,6 +2,8 @@ package dao;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.function.Predicate;
+
 import model.Category;
 
 import util.FileConnector;
@@ -54,6 +56,17 @@ public class CategoryDAO implements DAO<Category> {
 		} else {
 			return false;
 		}
+	}
+
+	@Override
+	public Category get(Predicate<Category> predicate) throws ClassNotFoundException, IOException {
+		List<Category> categories = fileConnector.readFromFile(FILE_PATH);
+		for (Category category : categories) {
+			if (predicate.test(category)) {
+				return category;
+			}
+		}
+		return null;
 	}
 
 }
