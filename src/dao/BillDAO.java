@@ -8,7 +8,7 @@ import model.Book;
 import util.FileConnector;
 
 public class BillDAO implements DAO<Bill> {
-	String FILE_PATH = "db/bills.txt";
+	String FILE_PATH = "src/db/bills.txt";
 	private final FileConnector<Bill> fileConnector = new FileConnector<Bill>();
 	@Override
 	public List getAll() throws ClassNotFoundException, IOException {

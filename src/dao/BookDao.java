@@ -7,7 +7,7 @@ import model.Book;
 import util.FileConnector;
 
 public class BookDao implements DAO<Book> {
-	String FILE_PATH = "db/books.txt";
+	String FILE_PATH = "src/db/books.txt";
 	private final FileConnector<Book> fileConnector = new FileConnector<Book>();
 	
 	

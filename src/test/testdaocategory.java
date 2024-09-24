@@ -9,7 +9,7 @@ import model.Category;
 
 public class testdaocategory {
 	public static void main(String[] args) throws ClassNotFoundException, IOException {
-		CategoryDAO cateDao = new CategoryDAO();
+	CategoryDAO cateDao = new CategoryDAO();
 	
 	//Add them sach vao file
 	List<Category> list = new ArrayList<Category>();
