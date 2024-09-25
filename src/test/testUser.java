@@ -15,8 +15,9 @@ public class testUser {
 		
 		User testUser = new User(1, "admin", "nguyentuan20042207@gmail.com", "admin", true);
 		
-//		userDao.add(testUser);
+		userDao.add(testUser);
 		
+//		userDao.delete(testUser);
 		
 		List<User> userList = userDao.getAll();
 		
