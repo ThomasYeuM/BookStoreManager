@@ -105,6 +105,9 @@ public class LoginView extends JFrame {
 					}
 					JOptionPane.showMessageDialog(LoginView.this, "Đăng nhập thành công.");
 					dispose();
+					HomepageView homepage = new HomepageView();
+					homepage.setVisible(true);
+					
 					return;
 
 				} catch (ClassNotFoundException e1) {
