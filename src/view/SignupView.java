@@ -107,7 +107,6 @@ public class SignupView extends JFrame {
 				int id = 0;
 				try {
 					id = userController.getAllUsers().size() + 1;
-
 					User newUser = new User(id, username, email, password, false);
 					if (!userController.addUser(newUser)) {
 						JOptionPane.showMessageDialog(SignupView.this,
