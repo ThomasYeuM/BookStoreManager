@@ -2,6 +2,7 @@ package dao;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.function.Predicate;
 
 import util.FileConnector;
 import model.User;
@@ -52,6 +53,17 @@ public class UserDao implements DAO<User>{
 		fileConnector.writeToFile(FILE_PATH, users);
 		return true;
 		
+	}
+
+	@Override
+	public  User get(Predicate<User> predicate) throws ClassNotFoundException, IOException {
+		List<User> users = fileConnector.readFromFile(FILE_PATH);
+		for (User user : users) {
+			if (predicate.test(user)) {
+				return user;
+			}
+		}
+		return null;
 	}
 
 }

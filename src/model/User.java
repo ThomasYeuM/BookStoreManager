@@ -9,9 +9,36 @@ public class User implements Serializable {
 	private String email;
 	private String password;
 	private boolean isVerify;
-	
-	public User() {}
-	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public boolean isVerify() {
+		return isVerify;
+	}
+	public void setVerify(boolean isVerify) {
+		this.isVerify = isVerify;
+	}
 	public User(int id, String username, String email, String password, boolean isVerify) {
 		super();
 		this.id = id;
@@ -20,53 +47,11 @@ public class User implements Serializable {
 		this.password = password;
 		this.isVerify = isVerify;
 	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public boolean isVerify() {
-		return isVerify;
-	}
-
-	public void setVerify(boolean isVerify) {
-		this.isVerify = isVerify;
-	}
-
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password
 				+ ", isVerify=" + isVerify + "]";
 	}
-	
 	
 	
 	

@@ -3,6 +3,10 @@ package view;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import dao.UserDao;
+import model.User;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -21,14 +25,18 @@ import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import util.FormUtils;
+
+import javax.swing.JPasswordField;
+
 public class LoginView extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField UsernameField;
-	private JTextField PasswordTextField;
+	private JPasswordField passwordField;
 
 	public LoginView() {
+		String FILE_PATH = "src/db/users.txt";
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 500);
 		contentPane = new JPanel();
@@ -37,17 +45,16 @@ public class LoginView extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		//Logo
+
 		try {
-            Image image = ImageIO.read(new File("src/resources/logo.png"));
-            JLabel label = new JLabel(new ImageIcon(image));
-            label.setBounds(60, 79, 398, 268);
-            contentPane.add(label);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-		
+			Image image = ImageIO.read(new File("src/resources/logo.png"));
+			JLabel label = new JLabel(new ImageIcon(image));
+			label.setBounds(60, 79, 398, 268);
+			contentPane.add(label);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		JLabel lblNewLabel = new JLabel("Tên đăng nhập");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblNewLabel.setBounds(519, 77, 237, 35);
@@ -67,22 +74,43 @@ public class LoginView extends JFrame {
 		lblMtKhu.setBounds(519, 175, 237, 35);
 		contentPane.add(lblMtKhu);
 
-		PasswordTextField = new JTextField();
-		PasswordTextField.setColumns(10);
-		PasswordTextField.setBounds(519, 210, 346, 42);
-		PasswordTextField.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		PasswordTextField.setBorder(BorderFactory.createCompoundBorder(PasswordTextField.getBorder(),
-				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-		contentPane.add(PasswordTextField);
-
 		JButton LoginButton = new JButton("Đăng nhập");
 		LoginButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		LoginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if ( !FormUtils.ValidateForm(contentPane) ) {
+				if (!FormUtils.ValidateForm(contentPane)) {
 					JOptionPane.showMessageDialog(LoginView.this, "Vui lòng nhập đầy đủ thông tin", "Error",
 							JOptionPane.ERROR_MESSAGE);
 					return;
+				}
+				String username = UsernameField.getText();
+				char[] password = passwordField.getPassword();
+
+				String password0 = new String(password);
+				try {
+					UserDao ud = new UserDao();
+					User user = ud.get(u -> u.getUsername().equals(username));
+
+					if (user == null || !user.getPassword().equals(password0)) {
+						JOptionPane.showMessageDialog(LoginView.this, "Tên đăng nhập hoặc mật khẩu không chính xác.",
+								"Error", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+
+					if (!user.isVerify()) {
+						JOptionPane.showMessageDialog(LoginView.this,
+								"Tài khoản của bạn không có quyền truy cập. Vui lòng liên hệ Admin.", "Error",
+								JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+					JOptionPane.showMessageDialog(LoginView.this, "Đăng nhập thành công.");
+					dispose();
+					return;
+
+				} catch (ClassNotFoundException e1) {
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					e1.printStackTrace();
 				}
 			}
 		});
@@ -97,7 +125,7 @@ public class LoginView extends JFrame {
 		JButton RegisterButton = new JButton("Đăng kí");
 		RegisterButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				SignupView sg = new SignupView();
 				sg.setVisible(true);
 				dispose();
@@ -112,6 +140,11 @@ public class LoginView extends JFrame {
 		ForgotPasswordButton.setBounds(734, 279, 131, 23);
 		ForgotPasswordButton.setBorderPainted(false);
 		contentPane.add(ForgotPasswordButton);
+
+		passwordField = new JPasswordField();
+		passwordField.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		passwordField.setBounds(519, 220, 346, 39);
+		contentPane.add(passwordField);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }
