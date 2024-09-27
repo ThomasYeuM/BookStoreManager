@@ -15,6 +15,7 @@ public class testAddBookByDAO {
 		//Add them sach vao file
 		List<Book> list = new ArrayList<Book>();
 		
+		
 		Author author1 = new Author("testAuthor", "male", "authorTest@gmail.com");
 		Book book1 = new Book(10, "test1", 10, 10, author1, "cai gi do");
 		Book book2 = new Book(30, "test2", 10, 10, author1, "cai gi do");
