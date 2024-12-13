@@ -2,6 +2,7 @@ package main;
 
 import java.awt.EventQueue;
 
+import view.HomepageView;
 import view.LoginView;
 
 public class main {
@@ -9,7 +10,8 @@ public class main {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					LoginView frame = new LoginView();
+//					LoginView frame = new LoginView();
+					HomepageView frame = new HomepageView();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

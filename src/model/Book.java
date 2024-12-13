@@ -8,7 +8,7 @@ public class Book implements Serializable{
 	private String name;
 	private int qty;
 	private double price;
-	private Author author;
+	private String author;
 	private String description;
 	public int getId() {
 		return id;
@@ -34,10 +34,10 @@ public class Book implements Serializable{
 	public void setPrice(double price) {
 		this.price = price;
 	}
-	public Author getAuthor() {
+	public String getAuthor() {
 		return author;
 	}
-	public void setAuthor(Author author) {
+	public void setAuthor(String author) {
 		this.author = author;
 	}
 	public String getDescription() {
@@ -46,7 +46,7 @@ public class Book implements Serializable{
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Book(int id, String name, int qty, double price, Author author, String description) {
+	public Book(int id, String name, int qty, double price, String author, String description) {
 		super();
 		this.id = id;
 		this.name = name;

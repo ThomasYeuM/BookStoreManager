@@ -43,17 +43,38 @@ public class HomepageView extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton btnNewButton = new JButton("Quản lý sách");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton qlySachBtn = new JButton("Quản lý sách");
+		qlySachBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BookMangementView bmv = new BookMangementView();
+				BookManagementView bmv = new BookManagementView();
 				bmv.setVisible(true);
 				dispose();
 			}
 		});
-		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnNewButton.setBounds(55, 80, 221, 50);
-		contentPane.add(btnNewButton);
+		qlySachBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		qlySachBtn.setBounds(80, 25, 221, 50);
+		contentPane.add(qlySachBtn);
+		
+		JButton qlHoaDonbtn = new JButton("Quản lý hóa đơn");
+		qlHoaDonbtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				BillManagementView bmmv = new BillManagementView();
+				bmmv.setVisible(true);
+				dispose();
+			}
+		});
+		qlHoaDonbtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		qlHoaDonbtn.setBounds(381, 25, 221, 50);
+		contentPane.add(qlHoaDonbtn);
+		
+		JButton qlyTaiKhoanKHbtn = new JButton("Quản lý tài khoản");
+		qlyTaiKhoanKHbtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		qlyTaiKhoanKHbtn.setBounds(682, 25, 221, 50);
+		contentPane.add(qlyTaiKhoanKHbtn);
+		
+		JButton chartsbtn = new JButton("Thống kê");
+		chartsbtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		chartsbtn.setBounds(983, 25, 221, 50);
+		contentPane.add(chartsbtn);
 	}
-
 }
