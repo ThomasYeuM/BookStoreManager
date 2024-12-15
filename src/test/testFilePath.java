@@ -15,7 +15,7 @@ import model.Book;
 
 public class testFilePath {
 	public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException {
-			String FILE_PATH = "db/books.txt";
+			String FILE_PATH = "src/db/books.txt";;
 			
 			//Tao 1 danh sach book
 			List<Book> list = new ArrayList<Book>();

@@ -1,14 +1,19 @@
 package view;
 
 import model.Book;
+import model.Category;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+
+import dao.BookDao;
+
 import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -17,7 +22,7 @@ public class BookManagementView extends JFrame {
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private JTable table;
-
+    BookDao BookDAO = new BookDao();
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
             try {
@@ -61,7 +66,6 @@ public class BookManagementView extends JFrame {
         		dispose();
         		ProductView pd =  new ProductView();
         		pd.setVisible(true);
-        		loadBooksFromFile();
         	}
         });
         addNewBookBtn.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -88,9 +92,15 @@ public class BookManagementView extends JFrame {
         String[] columnNames = { "ID", "Tên Sách", "Số Lượng", "Giá", "Tác Giả", "Mô Tả" };
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
 
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("src/db/books.txt"))) {
-            @SuppressWarnings("unchecked")
-            ArrayList<Book> books = (ArrayList<Book>) ois.readObject();
+        List<Book> books = null;
+		try {
+			books = BookDAO.getAll();
+		} catch (ClassNotFoundException | IOException e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(this, "Lỗi khi tải danh sách thể loại!", "Lỗi",
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		}
             for (Book book : books) {
                 Vector<Object> row = new Vector<>();
                 row.add(book.getId());
@@ -102,11 +112,7 @@ public class BookManagementView extends JFrame {
                 model.addRow(row);
             }
         
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Lỗi khi đọc file books.txt!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-        }
-
+   
 
         table.setModel(model);
         
@@ -120,40 +126,54 @@ public class BookManagementView extends JFrame {
             table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
     }
-    private ArrayList<Book> loadBooksFromFile() {
-        ArrayList<Book> books = new ArrayList<>();
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("src/db/books.txt"))) {
-            books = (ArrayList<Book>) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return books;
-    }
-    private void deleteSelectedBook() {
-        int selectedRow = table.getSelectedRow(); 
-        
-        if (selectedRow != -1) { 
-            DefaultTableModel model = (DefaultTableModel) table.getModel();
-            model.removeRow(selectedRow);
 
-            ArrayList<Book> books = loadBooksFromFile(); 
-            
-            books.remove(selectedRow);
-            
-            try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("src/db/books.txt"))) {
-                oos.writeObject(books);
-            } catch (IOException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Lỗi khi ghi dữ liệu vào file!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            }
-            
-            JOptionPane.showMessageDialog(this, "Sản phẩm đã được xóa!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn một sản phẩm để xóa!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-        }
-    }
+	private void deleteSelectedBook() {
+		int selectedRow = table.getSelectedRow();
 
+		if (selectedRow != -1) {
+			DefaultTableModel model = (DefaultTableModel) table.getModel();
 
+			List<Book> books = null;
+			try {
+				books = BookDAO.getAll();
+			} catch (ClassNotFoundException | IOException e) {
+				e.printStackTrace();
+				JOptionPane.showMessageDialog(this, "Lỗi khi tải danh sách thể loại!", "Lỗi",
+						JOptionPane.ERROR_MESSAGE);
+				return;
+			}
 
+			if (selectedRow < books.size()) {
+				Book bookToDelete = books.get(selectedRow);
+
+				try {
+					BookDAO.delete(bookToDelete);
+				} catch (ClassNotFoundException | IOException e) {
+					e.printStackTrace();
+					JOptionPane.showMessageDialog(this, "Lỗi khi xóa thể loại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+
+				model.removeRow(selectedRow);
+
+				try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("src/db/books.txt"))) {
+					oos.writeObject(books);
+				} catch (IOException e) {
+					e.printStackTrace();
+					JOptionPane.showMessageDialog(this, "Lỗi khi ghi dữ liệu vào file!", "Lỗi",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+
+				JOptionPane.showMessageDialog(this, "Thể loại đã được xóa!", "Thông báo",
+						JOptionPane.INFORMATION_MESSAGE);
+			} else {
+				JOptionPane.showMessageDialog(this, "Không tìm thấy thể loại trong danh sách!", "Lỗi",
+						JOptionPane.ERROR_MESSAGE);
+			}
+		} else {
+			JOptionPane.showMessageDialog(this, "Vui lòng chọn một thể loại để xóa!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+		}
+	}
 
 }
