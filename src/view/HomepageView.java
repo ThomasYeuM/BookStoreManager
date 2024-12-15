@@ -76,5 +76,16 @@ public class HomepageView extends JFrame {
 		chartsbtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		chartsbtn.setBounds(983, 25, 221, 50);
 		contentPane.add(chartsbtn);
+		
+		JButton qlyCategory = new JButton("Quản lý thể loại");
+		qlyCategory.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CategoryManagement categoryManagement = new CategoryManagement();
+				categoryManagement.setVisible(true);
+			}
+		});
+		qlyCategory.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		qlyCategory.setBounds(80, 120, 221, 50);
+		contentPane.add(qlyCategory);
 	}
 }
