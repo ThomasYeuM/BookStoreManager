@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import util.FormUtils;
+import util.GetFilePath;
 
 import javax.swing.JPasswordField;
 
@@ -47,7 +48,8 @@ public class LoginView extends JFrame {
 		contentPane.setLayout(null);
 
 		try {
-			Image image = ImageIO.read(new File("src/resources/logo.png"));
+			
+			Image image = ImageIO.read(new File(GetFilePath.getAbsoluteFilePath() + "/src/resources/logo.png"));
 			JLabel label = new JLabel(new ImageIcon(image));
 			label.setBounds(60, 79, 398, 268);
 			contentPane.add(label);

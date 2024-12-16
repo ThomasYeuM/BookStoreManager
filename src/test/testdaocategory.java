@@ -23,16 +23,16 @@ public class testdaocategory {
 	
 	
 	//Them sach vao file
-	Category updatedCate = new Category(30, "updateCate", "updateCate");
-	cateDao.update(updatedCate);
+//	Category updatedCate = new Category(30, "updateCate", "updateCate");
+//	cateDao.update(updatedCate);
 	
 	
 	
 	
 	
 	//Xoa sach khoi file
-	Category deleteCate = new Category(30, "cate2", "des2");
-	cateDao.delete(deleteCate);
+//	Category deleteCate = new Category(30, "cate2", "des2");
+//	cateDao.delete(deleteCate);
 	
 	//Lay danh sach tat ca cac sach da them
 	List<Category> listBooks = cateDao.getAll();
