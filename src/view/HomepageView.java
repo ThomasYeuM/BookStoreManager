@@ -68,6 +68,14 @@ public class HomepageView extends JFrame {
 		contentPane.add(qlHoaDonbtn);
 		
 		JButton qlyTaiKhoanKHbtn = new JButton("Quản lý tài khoản");
+		qlyTaiKhoanKHbtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Khi nhấn vào nút, mở AccountManagementView
+                AccountManagementView amv = new AccountManagementView();
+                amv.setVisible(true);
+                dispose(); // Đóng cửa sổ Homepage khi chuyển đến AccountManagementView
+            }
+        });
 		qlyTaiKhoanKHbtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		qlyTaiKhoanKHbtn.setBounds(682, 25, 221, 50);
 		contentPane.add(qlyTaiKhoanKHbtn);
