@@ -28,6 +28,7 @@ import util.FormUtils;
 import util.GetFilePath;
 
 import javax.swing.JPasswordField;
+import util.ImageUtils;
 
 public class LoginView extends JFrame {
 
@@ -35,6 +36,8 @@ public class LoginView extends JFrame {
 	private JPanel contentPane;
 	private JTextField UsernameField;
 	private JPasswordField passwordField;
+	private JButton showPasswordButton;
+	private ImageUtils imageUtils = new ImageUtils();
 
 	public LoginView() {
 		String FILE_PATH = "src/db/users.txt";
@@ -109,7 +112,7 @@ public class LoginView extends JFrame {
 					dispose();
 					HomepageView homepage = new HomepageView();
 					homepage.setVisible(true);
-					
+
 					return;
 
 				} catch (ClassNotFoundException e1) {
@@ -149,7 +152,36 @@ public class LoginView extends JFrame {
 		passwordField = new JPasswordField();
 		passwordField.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		passwordField.setBounds(519, 220, 346, 39);
+		passwordField.setBorder(BorderFactory.createCompoundBorder(UsernameField.getBorder(),
+				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		contentPane.add(passwordField);
+
+		// Create the "Show Password" button
+
+		try {
+			JLabel CloseEyeIcon = imageUtils.getImage("src/resources/closed-eyes.png");
+			JLabel OpenEyeIcon = imageUtils.getImage("src/resources/eye-close-up.png");
+			showPasswordButton = new JButton("Show");
+			showPasswordButton.setBounds(875, 220, 130, 39);
+			showPasswordButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if (passwordField.getEchoChar() == '\u0000') {
+						// Password is visible
+						passwordField.setEchoChar('*'); // Hide password
+						showPasswordButton.setText("Hide");
+					} else { // Password is hidden
+						passwordField.setEchoChar('\u0000'); // Show password
+						showPasswordButton.setText("Show");
+					}
+				}
+			});
+			contentPane.add(showPasswordButton);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }

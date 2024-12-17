@@ -13,6 +13,7 @@
 /BookMangementView$1.class
 /BookMangementView.class
 /HomepageView$2.class
+<<<<<<< HEAD
 /BillManagementView.class
 /BookManagementView$1.class
 /BookManagementView$2.class
@@ -22,3 +23,9 @@
 /ProductView$2.class
 /ProductView$3.class
 /ProductView.class
+=======
+/LoginView$3.class
+/BookMangementView$2.class
+/AddOrUpdateBookView$1.class
+/AddOrUpdateBookView.class
+>>>>>>> abd3aa701ff6f7b308fafdeee0ec92bff3178936
