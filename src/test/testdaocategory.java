@@ -32,12 +32,10 @@ public class testdaocategory {
 //		// Lay danh sach tat ca cac sach da them
 		List<Category> listBooks = cateDao.getAll();
 
-
 		for (Category cate : listBooks) {
 			System.out.println(
 					"  - ID: " + cate.getId() + "  - Tên: " + cate.getName() + ", Des: " + cate.getDescription());
 		}
 		System.out.println("Test done");
-
 	}
 }
