@@ -81,7 +81,7 @@ public class BookManagementView extends JFrame {
 		doneBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				 new HomepageView().setVisible(true);
+				 new HomepageView("").setVisible(true);
 			}
 		});
 		doneBtn.setFont(new Font("Tahoma", Font.PLAIN, 14));

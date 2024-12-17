@@ -142,6 +142,5 @@ public class CategoryEditView extends JFrame {
 		this.textArea.setText(categoryToEdit.getDescription());
 	}
 
-
 }
 
