@@ -76,9 +76,9 @@ public class ProductView extends JFrame {
         contentPane.add(authorTf);
         authorTf.setColumns(10);
 
-        JLabel lblNewLabel = new JLabel("ID");
+        JLabel lblNewLabel = new JLabel("Mã Tác Phẩm\r\n");
         lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
-        lblNewLabel.setBounds(49, 99, 95, 35);
+        lblNewLabel.setBounds(49, 99, 124, 35);
         contentPane.add(lblNewLabel);
 
         JLabel lblNewLabel_1 = new JLabel("Tên Sách");
@@ -139,7 +139,7 @@ public class ProductView extends JFrame {
             }
         });
         btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 18));
-        btnNewButton.setBounds(328, 382, 111, 35);
+        btnNewButton.setBounds(329, 382, 111, 35);
         contentPane.add(btnNewButton);
 
         JButton cancelBtn = new JButton("Hủy");
