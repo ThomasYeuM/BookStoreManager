@@ -31,7 +31,10 @@ public class testdaocategory {
 //
 //		// Lay danh sach tat ca cac sach da them
 		List<Category> listBooks = cateDao.getAll();
-
+//		Category edit = new Category(1,"sua","sua");
+////		cateDao.update(edit);
+		Category dele = new Category(1,"123","12");
+		cateDao.delete(dele);
 		for (Category cate : listBooks) {
 			System.out.println(
 					"  - ID: " + cate.getId() + "  - Tên: " + cate.getName() + ", Des: " + cate.getDescription());

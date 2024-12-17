@@ -1,11 +1,15 @@
 package view;
  
 import javax.swing.*;
+import javax.swing.border.Border;
 
+import dao.CategoryDAO;
 import model.Category;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.TextArea;
@@ -16,9 +20,10 @@ public class CategoryEditView extends JFrame {
     private JButton saveButton;
     private Category category;
     private JTextField idTf;
-    private TextArea textArea;
-
+    private JTextArea textArea;
+    CategoryDAO categoryDao;
     public CategoryEditView() {
+    	categoryDao = new CategoryDAO();
         setTitle("Chỉnh Sửa Thể Loại");
         setBounds(100, 100, 462, 486);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -48,10 +53,11 @@ public class CategoryEditView extends JFrame {
         lblNewLabel.setBounds(114, 25, 220, 61);
         getContentPane().add(lblNewLabel);
         
-        JTextArea textArea = new JTextArea();
+        textArea = new JTextArea();
         textArea.setBounds(216, 224, 200, 160);
         getContentPane().add(textArea);
-        
+        Border border = BorderFactory.createLineBorder(Color.GRAY, 1);
+		textArea.setBorder(BorderFactory.createCompoundBorder(border, BorderFactory.createEmptyBorder(5, 5, 5, 5)));
         JLabel lblMThLoi = new JLabel("Mã thể loại");
         lblMThLoi.setFont(new Font("Tahoma", Font.BOLD, 18));
         lblMThLoi.setBounds(30, 154, 147, 25);
@@ -59,10 +65,15 @@ public class CategoryEditView extends JFrame {
         
         idTf = new JTextField();
         idTf.setBounds(216, 154, 200, 25);
-//        idTf.setText("asd");
+
         getContentPane().add(idTf);
         
         JButton huyBtn = new JButton("Hủy");
+        huyBtn.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		dispose();
+        	}
+        });
         huyBtn.setFont(new Font("Tahoma", Font.PLAIN, 18));
         huyBtn.setBounds(216, 394, 90, 30);
         getContentPane().add(huyBtn);
@@ -70,7 +81,26 @@ public class CategoryEditView extends JFrame {
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                saveCategory();
+            	int id = Integer.parseInt(idTf.getText());
+            	String name = nameTf.getText();
+            	String des = textArea.getText();
+            	
+            	Category categoryEdited = new Category(id, name, des);
+            	try {
+					categoryDao.update(categoryEdited);
+					JOptionPane.showMessageDialog(CategoryEditView.this, "Sửa thể loại thành công!", "Thông Báo",
+							JOptionPane.INFORMATION_MESSAGE);
+					dispose();
+					CategoryManagementView view = new CategoryManagementView();
+					view.setVisible(true);
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+            	
             }
         });
     }
@@ -88,12 +118,12 @@ public class CategoryEditView extends JFrame {
     	});
     }
     public CategoryEditView(Category categoryToEdit) {
-		System.out.println("Cate name:"+categoryToEdit.getDescription());
-		CategoryEditView frame = new CategoryEditView();
-		frame.setVisible(true);
-		frame.idTf.setText(String.valueOf(categoryToEdit.getId()));
-		frame.nameTf.setText(categoryToEdit.getName());
-		frame.textArea.setText(categoryToEdit.getDescription());
+		
+		this();
+		this.setVisible(true);
+		this.idTf.setText(String.valueOf(categoryToEdit.getId()));
+		this.nameTf.setText(categoryToEdit.getName());
+		this.textArea.setText(categoryToEdit.getDescription());
 	}
 
 }

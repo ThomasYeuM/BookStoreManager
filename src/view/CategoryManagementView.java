@@ -173,6 +173,7 @@ public class CategoryManagementView extends JFrame {
 
 				try {
 					categoryDao.delete(categoryToDelete);
+					System.out.println("da xoa");
 				} catch (ClassNotFoundException | IOException e) {
 					e.printStackTrace();
 					JOptionPane.showMessageDialog(this, "Lỗi khi xóa thể loại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
@@ -199,6 +200,7 @@ public class CategoryManagementView extends JFrame {
 		} else {
 			JOptionPane.showMessageDialog(this, "Vui lòng chọn một thể loại để xóa!", "Lỗi", JOptionPane.ERROR_MESSAGE);
 		}
+		loadCategoryData();
 	}
 	private void editCategory() {
 		int selectedRow = table.getSelectedRow();
@@ -220,6 +222,7 @@ public class CategoryManagementView extends JFrame {
 			System.out.println(categoryToEdit.getDescription());
 			CategoryEditView categoryEditView = new CategoryEditView(categoryToEdit);
 			categoryEditView.setVisible(true);
+			this.dispose();
 			
 			
 		}
