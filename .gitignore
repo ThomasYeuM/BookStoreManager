@@ -1,7 +1,5 @@
-/.metadata/
-/bin/
-bills.txt
-books.txt
-categories.txt
-users.txt
+
+/module-info.class
+
 *.txt
+
