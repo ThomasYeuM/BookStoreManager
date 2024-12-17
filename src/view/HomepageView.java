@@ -15,6 +15,7 @@ public class HomepageView extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private static String Username;
 
 	/**
 	 * Launch the application.
@@ -23,7 +24,7 @@ public class HomepageView extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					HomepageView frame = new HomepageView();
+					HomepageView frame = new HomepageView(Username);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -35,7 +36,8 @@ public class HomepageView extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public HomepageView() {
+	public HomepageView(String Username) {
+		this.Username = Username;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1300, 750);
 		contentPane = new JPanel();
@@ -60,7 +62,7 @@ public class HomepageView extends JFrame {
 		JButton qlHoaDonbtn = new JButton("Quản lý hóa đơn");
 		qlHoaDonbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BillManagementView bmmv = new BillManagementView();
+				BillManagementView bmmv = new BillManagementView(Username);
 				bmmv.setVisible(true);
 
 			}
@@ -94,6 +96,7 @@ public class HomepageView extends JFrame {
 				categoryManagement.setVisible(true);
 			}
 		});
+
 		qlyCategoryBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		qlyCategoryBtn.setBounds(80, 120, 221, 50);
 		contentPane.add(qlyCategoryBtn);
@@ -112,5 +115,7 @@ public class HomepageView extends JFrame {
 		contentPane.add(doiMatKhaubtn);
 		
 		
+
 	}
+
 }
