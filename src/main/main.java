@@ -3,7 +3,6 @@ package main;
 import java.awt.EventQueue;
 import java.io.File;
 
-import test.testUser;
 import util.GetFilePath;
 import view.HomepageView;
 import view.LoginView;
