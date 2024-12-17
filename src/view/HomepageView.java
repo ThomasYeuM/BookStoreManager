@@ -48,15 +48,10 @@ public class HomepageView extends JFrame {
 		JButton qlySachBtn = new JButton("Quản lý sách");
 		qlySachBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BookMangementView bmv;
-				try {
-					bmv = new BookMangementView();
-					bmv.setVisible(true);
-					dispose();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				BookManagementView bmv;
+				bmv = new BookManagementView();
+				bmv.setVisible(true);
+			
 
 
 			}

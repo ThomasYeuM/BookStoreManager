@@ -10,8 +10,10 @@ public class testGenId {
 		// TODO Auto-generated method stub
 		
 		
-		int newId = GenNewId.getNewBillId();
-		System.out.println(newId);
+//		int newId = GenNewId.getNewBillId();
+//		System.out.println(newId);
+		
+		GenNewId.generateNewIds();
 	}
 
 }

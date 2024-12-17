@@ -110,6 +110,7 @@ public class CategoryManagementView extends JFrame {
 		JButton editCateBtn = new JButton("Sửa Thể Loại");
 		editCateBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				System.out.println("Check");
 				editCategory();
 				
 			}
