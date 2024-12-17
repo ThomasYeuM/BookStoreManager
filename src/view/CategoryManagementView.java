@@ -74,7 +74,7 @@ public class CategoryManagementView extends JFrame {
     	            dispose();
     	            
     	            // Open HomepageView
-    	            new HomepageView().setVisible(true);
+    	            
     	        }
     	    }
     	});

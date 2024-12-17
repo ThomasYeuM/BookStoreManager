@@ -6,6 +6,8 @@ import model.Category;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.TextArea;
@@ -21,7 +23,20 @@ public class CategoryEditView extends JFrame {
     public CategoryEditView() {
         setTitle("Chỉnh Sửa Thể Loại");
         setBounds(100, 100, 462, 486);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				// Show confirmation dialog
+
+				// Close current window
+				dispose();
+
+				// Open HomepageView
+				new CategoryManagementView().setVisible(true);
+
+			}
+		});
         getContentPane().setLayout(null);
 
         JLabel lblName = new JLabel("Tên Thể Loại:");

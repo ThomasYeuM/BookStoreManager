@@ -52,7 +52,7 @@ public class BookManagementView extends JFrame {
     	            dispose();
     	            
     	            // Open HomepageView
-    	            new HomepageView().setVisible(true);
+//    	            new HomepageView().setVisible(true);
     	        }
     	    }
     	});
