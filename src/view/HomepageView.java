@@ -48,7 +48,7 @@ public class HomepageView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				BookManagementView bmv = new BookManagementView();
 				bmv.setVisible(true);
-				dispose();
+
 			}
 		});
 		qlySachBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -60,7 +60,7 @@ public class HomepageView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				BillManagementView bmmv = new BillManagementView();
 				bmmv.setVisible(true);
-				dispose();
+
 			}
 		});
 		qlHoaDonbtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -88,7 +88,7 @@ public class HomepageView extends JFrame {
 		JButton qlyCategory = new JButton("Quản lý thể loại");
 		qlyCategory.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CategoryManagement categoryManagement = new CategoryManagement();
+				CategoryManagementView categoryManagement = new CategoryManagementView();
 				categoryManagement.setVisible(true);
 			}
 		});
