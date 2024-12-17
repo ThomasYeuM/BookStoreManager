@@ -28,6 +28,8 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 import view.CategoryEditView;
 public class CategoryManagementView extends JFrame {
@@ -57,7 +59,26 @@ public class CategoryManagementView extends JFrame {
 	 * Create the frame.
 	 */
 	public CategoryManagementView() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+    	addWindowListener(new WindowAdapter() {
+    	    @Override
+    	    public void windowClosing(WindowEvent e) {
+    	        // Show confirmation dialog
+    	        if (JOptionPane.showConfirmDialog(
+    	            null, 
+    	            "Do you really want to exit?", 
+    	            "Confirm", 
+    	            JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+    	            
+    	            // Close current window
+    	            dispose();
+    	            
+    	            // Open HomepageView
+    	            
+    	        }
+    	    }
+    	});
+
 		setBounds(100, 100, 796, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -89,6 +110,7 @@ public class CategoryManagementView extends JFrame {
 		JButton editCateBtn = new JButton("Sửa Thể Loại");
 		editCateBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				System.out.println("Check");
 				editCategory();
 				
 			}
@@ -111,7 +133,7 @@ public class CategoryManagementView extends JFrame {
 		doneBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-
+				 new HomepageView().setVisible(true);
 			}
 		});
 		doneBtn.setFont(new Font("Tahoma", Font.PLAIN, 14));

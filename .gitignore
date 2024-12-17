@@ -1,4 +1,8 @@
+
 /module-info.class
 
 *.txt
+*.class
+bin/
+test/
 

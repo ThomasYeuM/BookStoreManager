@@ -7,7 +7,7 @@ import java.util.HashMap;
 public class Bill implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-	private String id;
+	private int id;
 	private Customer customer;
 	private int adminID;
 	private Date date;
@@ -16,7 +16,7 @@ public class Bill implements Serializable{
 	public Bill() {
 	}
 	
-	public Bill(String id, Customer customer, int adminID, Date date, HashMap<Book, Integer> books) {
+	public Bill(int id, Customer customer, int adminID, Date date, HashMap<Book, Integer> books) {
 		this.id = id;
 		this.customer = customer;
 		this.adminID = adminID;
@@ -24,7 +24,7 @@ public class Bill implements Serializable{
 		Books = books;
 	}
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
@@ -49,7 +49,7 @@ public class Bill implements Serializable{
 		return this.ProductExpense;
 	}
 	
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
