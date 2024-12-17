@@ -18,8 +18,28 @@ public class AccountManagementView extends JFrame {
 
 	public AccountManagementView() {
 		userDao = new UserDao(); //
+		
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+    	addWindowListener(new WindowAdapter() {
+    	    @Override
+    	    public void windowClosing(WindowEvent e) {
+    	        // Show confirmation dialog
+    	        if (JOptionPane.showConfirmDialog(
+    	            null, 
+    	            "Do you really want to exit?", 
+    	            "Confirm", 
+    	            JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+    	            
+    	            // Close current window
+    	            dispose();
+    	            
+    	            // Open HomepageView
+//    	            new HomepageView().setVisible(true);
+    	        }
+    	    }
+    	});
 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	
 		setBounds(100, 100, 600, 400);
 		contentPane = new JPanel();
 		contentPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -56,6 +76,7 @@ public class AccountManagementView extends JFrame {
 		    public void actionPerformed(ActionEvent e) {
 		        AddAccountView addAccountView = new AddAccountView(AccountManagementView.this); // Truyền đối tượng AccountManagementView
 		        addAccountView.setVisible(true);
+		        dispose();
 		    }
 		});
 
