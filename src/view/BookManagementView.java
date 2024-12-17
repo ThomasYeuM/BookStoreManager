@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 
 public class BookManagementView extends JFrame {
@@ -35,7 +37,26 @@ public class BookManagementView extends JFrame {
     }
 
     public BookManagementView() {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+    	addWindowListener(new WindowAdapter() {
+    	    @Override
+    	    public void windowClosing(WindowEvent e) {
+    	        // Show confirmation dialog
+    	        if (JOptionPane.showConfirmDialog(
+    	            null, 
+    	            "Do you really want to exit?", 
+    	            "Confirm", 
+    	            JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+    	            
+    	            // Close current window
+    	            dispose();
+    	            
+    	            // Open HomepageView
+//    	            new HomepageView().setVisible(true);
+    	        }
+    	    }
+    	});
+  
         setBounds(100, 100, 888, 600);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -54,11 +75,18 @@ public class BookManagementView extends JFrame {
 
         loadBookData();
 
-        JButton backBtn = new JButton("Done");
-        backBtn.addActionListener(e -> dispose());
-        backBtn.setFont(new Font("Tahoma", Font.PLAIN, 14));
-        backBtn.setBounds(733, 510, 131, 43);
-        contentPane.add(backBtn);
+ 
+        
+        JButton doneBtn = new JButton("Xong");
+		doneBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				 new HomepageView().setVisible(true);
+			}
+		});
+		doneBtn.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		doneBtn.setBounds(733, 510, 131, 43);
+		contentPane.add(doneBtn);
         
         JButton addNewBookBtn = new JButton("Thêm Sách Mới");
         addNewBookBtn.addActionListener(new ActionListener() {

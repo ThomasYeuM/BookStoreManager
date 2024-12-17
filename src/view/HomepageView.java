@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 
 public class HomepageView extends JFrame {
@@ -42,12 +43,16 @@ public class HomepageView extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
+
 		JButton qlySachBtn = new JButton("Quản lý sách");
 		qlySachBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BookManagementView bmv = new BookManagementView();
+				BookManagementView bmv;
+				bmv = new BookManagementView();
 				bmv.setVisible(true);
+			
+
 
 			}
 		});
@@ -68,6 +73,14 @@ public class HomepageView extends JFrame {
 		contentPane.add(qlHoaDonbtn);
 		
 		JButton qlyTaiKhoanKHbtn = new JButton("Quản lý tài khoản");
+		qlyTaiKhoanKHbtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Khi nhấn vào nút, mở AccountManagementView
+                AccountManagementView amv = new AccountManagementView();
+                amv.setVisible(true);
+                
+            }
+        });
 		qlyTaiKhoanKHbtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		qlyTaiKhoanKHbtn.setBounds(682, 25, 221, 50);
 		contentPane.add(qlyTaiKhoanKHbtn);
