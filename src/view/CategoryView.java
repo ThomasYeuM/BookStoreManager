@@ -45,7 +45,7 @@ public class CategoryView extends JFrame {
 	}
 
 	public CategoryView() {
-		
+
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -117,12 +117,12 @@ public class CategoryView extends JFrame {
 					List<Category> categories = cateDao.getAll();
 					for (Category category : categories) {
 						if (Integer.parseInt(idStr) == category.getId()) {
-							JOptionPane.showMessageDialog(CategoryView.this, "Mã Thể Loại đã tồn tại!",
-									"Lỗi Nhập Liệu", JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(CategoryView.this, "Mã Thể Loại đã tồn tại!", "Lỗi Nhập Liệu",
+									JOptionPane.ERROR_MESSAGE);
 							return;
 						}
 					}
-					
+
 					if (idStr.isEmpty()) {
 						JOptionPane.showMessageDialog(CategoryView.this, "Mã Thể Loại không được để trống!",
 								"Lỗi Nhập Liệu", JOptionPane.ERROR_MESSAGE);

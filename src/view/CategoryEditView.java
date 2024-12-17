@@ -25,7 +25,6 @@ public class CategoryEditView extends JFrame {
     private JButton saveButton;
     private Category category;
     private JTextField idTf;
-
     private JTextArea textArea;
 
     public CategoryEditView() {
@@ -101,6 +100,7 @@ public class CategoryEditView extends JFrame {
             	CategoryDAO categoryDao = new CategoryDAO();
             	Category categoryEdited = new Category(id, name, des);
             	try {
+            		System.out.println(categoryEdited.getName());
 					categoryDao.update(categoryEdited);
 					JOptionPane.showMessageDialog(CategoryEditView.this, "Sửa thể loại thành công!", "Thông Báo",
 							JOptionPane.INFORMATION_MESSAGE);
@@ -140,6 +140,8 @@ public class CategoryEditView extends JFrame {
 		this.idTf.setText(String.valueOf(categoryToEdit.getId()));
 		this.nameTf.setText(categoryToEdit.getName());
 		this.textArea.setText(categoryToEdit.getDescription());
+		
+		
 	}
 
 
