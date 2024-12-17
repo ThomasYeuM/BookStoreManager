@@ -23,26 +23,7 @@ public class EditAccountView extends JFrame {
 		this.userToEdit = user;
 		this.parentView = parentView;
 
-		
-		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-    	addWindowListener(new WindowAdapter() {
-    	    @Override
-    	    public void windowClosing(WindowEvent e) {
-    	        // Show confirmation dialog
-    	        if (JOptionPane.showConfirmDialog(
-    	            null, 
-    	            "Do you really want to exit?", 
-    	            "Confirm", 
-    	            JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-    	            
-    	            // Close current window
-    	            dispose();
-    	            
-    	            // Open HomepageView
-    
-    	        }
-    	    }
-    	});
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 400, 300);
 		JPanel contentPane = new JPanel();
 		contentPane.setLayout(new GridLayout(4, 2, 10, 10));
