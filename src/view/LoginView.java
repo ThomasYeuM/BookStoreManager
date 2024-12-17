@@ -110,7 +110,7 @@ public class LoginView extends JFrame {
 					}
 					JOptionPane.showMessageDialog(LoginView.this, "Đăng nhập thành công.");
 					dispose();
-					HomepageView homepage = new HomepageView();
+					HomepageView homepage = new HomepageView(username);
 					homepage.setVisible(true);
 
 					return;
@@ -184,4 +184,5 @@ public class LoginView extends JFrame {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
+
 }
