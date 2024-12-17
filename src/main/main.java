@@ -12,15 +12,10 @@ public class main {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					
-					
-				
-
 
 					LoginView frame = new LoginView();
 //					HomepageView frame = new HomepageView();
-
-
+					
 
 					frame.setVisible(true);
 				} catch (Exception e) {

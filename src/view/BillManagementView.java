@@ -4,11 +4,14 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -44,7 +47,25 @@ public class BillManagementView extends JFrame {
      */
     public BillManagementView(String Username) {
     	this.Username = Username;
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+    	addWindowListener(new WindowAdapter() {
+    	    @Override
+    	    public void windowClosing(WindowEvent e) {
+    	        // Show confirmation dialog
+    	        if (JOptionPane.showConfirmDialog(
+    	            null, 
+    	            "Do you really want to exit?", 
+    	            "Confirm", 
+    	            JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+    	            
+    	            // Close current window
+    	            dispose();
+    	            
+    	            // Open HomepageView
+//    	            new HomepageView().setVisible(true);
+    	        }
+    	    }
+    	});
         setBounds(100, 100, 882, 559);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

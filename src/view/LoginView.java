@@ -51,7 +51,6 @@ public class LoginView extends JFrame {
 		contentPane.setLayout(null);
 
 		try {
-			
 			Image image = ImageIO.read(new File(GetFilePath.getAbsoluteFilePath() + "/src/resources/logo.png"));
 			JLabel label = new JLabel(new ImageIcon(image));
 			label.setBounds(60, 79, 398, 268);
@@ -156,33 +155,51 @@ public class LoginView extends JFrame {
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		contentPane.add(passwordField);
 
-		// Create the "Show Password" button
-
 		try {
-			JLabel CloseEyeIcon = imageUtils.getImage("src/resources/closed-eyes.png");
-			JLabel OpenEyeIcon = imageUtils.getImage("src/resources/eye-close-up.png");
-			showPasswordButton = new JButton("Show");
-			showPasswordButton.setBounds(875, 220, 130, 39);
+			// Load eye icons
+			Image closedEyeImg = ImageIO.read(new File(GetFilePath.getAbsoluteFilePath() + "/src/resources/closed-eyes.png"));
+			Image openEyeImg = ImageIO.read(new File(GetFilePath.getAbsoluteFilePath() + "/src/resources/eye-close-up.png"));
+			
+			// Resize icons to fit the button
+			Image resizedClosedEye = closedEyeImg.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+			Image resizedOpenEye = openEyeImg.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+
+			// Create icons
+			ImageIcon closedEyeIcon = new ImageIcon(resizedClosedEye);
+			ImageIcon openEyeIcon = new ImageIcon(resizedOpenEye);
+
+			// Create button with closed eye icon
+			showPasswordButton = new JButton(closedEyeIcon);
+			showPasswordButton.setBounds(875, 220, 39, 39);
+			showPasswordButton.setBorderPainted(false);
+			showPasswordButton.setContentAreaFilled(false);
+			
 			showPasswordButton.addActionListener(new ActionListener() {
+				private boolean isPasswordVisible = false;
+
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					if (passwordField.getEchoChar() == '\u0000') {
-						// Password is visible
-						passwordField.setEchoChar('*'); // Hide password
-						showPasswordButton.setText("Hide");
-					} else { // Password is hidden
-						passwordField.setEchoChar('\u0000'); // Show password
-						showPasswordButton.setText("Show");
+					if (!isPasswordVisible) {
+						// Show password
+						passwordField.setEchoChar('\u0000');
+						showPasswordButton.setIcon(openEyeIcon);
+						isPasswordVisible = true;
+					} else {
+						// Hide password
+						passwordField.setEchoChar('*');
+						showPasswordButton.setIcon(closedEyeIcon);
+						isPasswordVisible = false;
 					}
 				}
 			});
 			contentPane.add(showPasswordButton);
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
+
 }
+
