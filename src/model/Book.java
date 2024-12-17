@@ -10,6 +10,7 @@ public class Book implements Serializable{
 	private double price;
 	private String author;
 	private String description;
+	
 	public int getId() {
 		return id;
 	}

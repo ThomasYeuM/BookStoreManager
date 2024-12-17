@@ -14,6 +14,7 @@ public class testAddBookByDAO {
 //		System.out.println("Test add book");
 //		//Add them sach vao file
 		List<Book> list = new ArrayList<Book>();
+
 //		
 //		Book book1 = new Book(10, "test1", 10, 10, "Str", "cai gi do");
 //		Book book2 = new Book(30, "test2", 10, 10, "Str", "cai gi do");
@@ -37,6 +38,7 @@ public class testAddBookByDAO {
 			for (Book book : list) {
 				System.out.println(book);
 			}
+
 		
 		
 	}

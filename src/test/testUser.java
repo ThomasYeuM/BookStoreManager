@@ -14,10 +14,10 @@ public class testUser {
 		UserDao userDao = new UserDao();
 		
 
-		User testUser = new User(1, "user", "nguyentuan20042207@gmail.com", "user", false);
-		User testAdmin = new User(1, "admin", "nguyentuan20042207@gmail.com", "admin", true);
-//		userDao.delete(testAdmin);
-//		userDao.add(testUser);
+		User testUser = new User(2, "user", "nguyentuan20042207@gmail.com", "user", false);
+		User testAdmin = new User(3, "admin", "nguyentuan20042207@gmail.com", "admin", true);
+//		userDao.delete(testUser);
+		userDao.add(testUser);
 		userDao.add(testAdmin);
 
 		

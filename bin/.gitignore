@@ -1,2 +1,8 @@
 /module-info.class
+/test/
+/util/
+/view/
+/resources/
+/controller/
 /db/
+/model/
