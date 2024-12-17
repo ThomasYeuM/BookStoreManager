@@ -177,7 +177,6 @@ public class CategoryManagementView extends JFrame {
 	}
 
 	private void deleteSelectedCategory() {
-
 	    int selectedRow = table.getSelectedRow();
 	    
 	    if (selectedRow != -1) {
@@ -213,6 +212,7 @@ public class CategoryManagementView extends JFrame {
 
 	                // Remove from table model
 	                model.removeRow(selectedRow);
+
 
 	                JOptionPane.showMessageDialog(this, "Thể loại đã được xóa!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 	            } catch (ClassNotFoundException | IOException e) {
