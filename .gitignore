@@ -5,3 +5,4 @@
 *.txt
 *.class
 bin/
+test/
