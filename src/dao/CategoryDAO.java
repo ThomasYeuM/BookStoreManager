@@ -5,15 +5,14 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import model.Category;
-
+import model.User;
 import util.FileConnector;
 import util.GetFilePath;
 
 public class CategoryDAO implements DAO<Category> {
 
 
-	private final String FILE_PATH = GetFilePath.getAbsoluteFilePath()+"/src/db/categories.txt";
-
+	private final String FILE_PATH = GetFilePath.getAbsoluteFilePath() + "/src/db/categories.txt";
 	private final FileConnector<Category> fileConnector = new FileConnector<Category>();
 
 
@@ -35,7 +34,7 @@ public class CategoryDAO implements DAO<Category> {
 		List<Category> categories = fileConnector.readFromFile(FILE_PATH);
 		for (int i = 0; i < categories.size(); i++) {
 			if (categories.get(i).getId() == categoryUpdate.getId()) {
-				categories.set(i,categoryUpdate);
+				categories.set(i, categoryUpdate);
 				break;
 			}
 		}
@@ -45,21 +44,10 @@ public class CategoryDAO implements DAO<Category> {
 
 	@Override
 	public boolean delete(Category categoryDelete) throws ClassNotFoundException, IOException {
-		List<Category> categories = fileConnector.readFromFile(FILE_PATH);
-		boolean isDeleted = false;
-		for (Category cate : categories) {
-			if (cate.getId() == categoryDelete.getId()) {
-				categories.remove(cate);
-				isDeleted = true;
-				break;
-			}
-		}
-		if (isDeleted) {
-			fileConnector.writeToFile(FILE_PATH, categories);
-			return true;
-		} else {
-			return false;
-		}
+		List<Category> categories = getAll();
+		categories.removeIf(category -> category.getId() == categoryDelete.getId());
+		fileConnector.writeToFile(FILE_PATH, categories);
+		return true;
 	}
 
 	@Override
