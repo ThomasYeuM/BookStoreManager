@@ -18,6 +18,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.util.List;
 import java.awt.event.ActionEvent;
 
 import model.Category;
@@ -112,6 +113,16 @@ public class CategoryView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					String idStr = idTf.getText().trim();
+					CategoryDAO cateDao = new CategoryDAO();
+					List<Category> categories = cateDao.getAll();
+					for (Category category : categories) {
+						if (Integer.parseInt(idStr) == category.getId()) {
+							JOptionPane.showMessageDialog(CategoryView.this, "Mã Thể Loại đã tồn tại!",
+									"Lỗi Nhập Liệu", JOptionPane.ERROR_MESSAGE);
+							return;
+						}
+					}
+					
 					if (idStr.isEmpty()) {
 						JOptionPane.showMessageDialog(CategoryView.this, "Mã Thể Loại không được để trống!",
 								"Lỗi Nhập Liệu", JOptionPane.ERROR_MESSAGE);
@@ -132,7 +143,7 @@ public class CategoryView extends JFrame {
 					}
 					String des = textArea.getText().trim();
 					Category newCate = new Category(id, name, des);
-					CategoryDAO cateDao = new CategoryDAO();
+
 					cateDao.add(newCate);
 					JOptionPane.showMessageDialog(CategoryView.this, "Thêm thể loại mới thành công!", "Thông Báo",
 							JOptionPane.INFORMATION_MESSAGE);

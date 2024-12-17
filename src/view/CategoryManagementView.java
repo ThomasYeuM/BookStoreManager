@@ -110,7 +110,9 @@ public class CategoryManagementView extends JFrame {
 		JButton editCateBtn = new JButton("Sửa Thể Loại");
 		editCateBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Check");
+
+
+
 				editCategory();
 				
 			}
@@ -175,52 +177,55 @@ public class CategoryManagementView extends JFrame {
 	}
 
 	private void deleteSelectedCategory() {
-		int selectedRow = table.getSelectedRow();
 
-		if (selectedRow != -1) {
-			DefaultTableModel model = (DefaultTableModel) table.getModel();
+	    int selectedRow = table.getSelectedRow();
+	    
+	    if (selectedRow != -1) {
+	        DefaultTableModel model = (DefaultTableModel) table.getModel();
 
-			List<Category> categories = null;
-			try {
-				categories = categoryDao.getAll();
-			} catch (ClassNotFoundException | IOException e) {
-				e.printStackTrace();
-				JOptionPane.showMessageDialog(this, "Lỗi khi tải danh sách thể loại!", "Lỗi",
-						JOptionPane.ERROR_MESSAGE);
-				return;
-			}
+	        List<Category> categories = null;
+	        try {
+	            categories = categoryDao.getAll();
+	        } catch (ClassNotFoundException | IOException e) {
+	            e.printStackTrace();
+	            JOptionPane.showMessageDialog(this, "Lỗi khi tải danh sách thể loại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+	            return;
+	        }
 
-			if (selectedRow < categories.size()) {
-				Category categoryToDelete = categories.get(selectedRow);
+	        if (selectedRow < categories.size()) {
+	            Category categoryToDelete = categories.get(selectedRow);
 
-				try {
-					categoryDao.delete(categoryToDelete);
-				} catch (ClassNotFoundException | IOException e) {
-					e.printStackTrace();
-					JOptionPane.showMessageDialog(this, "Lỗi khi xóa thể loại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
+	            try {
+	                // Remove the category from the list first
+	                categories.remove(selectedRow);
+	                
+	                // Then delete from DAO
+	                categoryDao.delete(categoryToDelete);
+	                
+	                // Immediately save the updated list to file
+	                try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("src/db/categories.txt"))) {
+	                    oos.writeObject(categories);
+	                } catch (IOException e) {
+	                    e.printStackTrace();
+	                    JOptionPane.showMessageDialog(this, "Lỗi khi ghi dữ liệu vào file!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+	                    return;
+	                }
 
-				model.removeRow(selectedRow);
+	                // Remove from table model
+	                model.removeRow(selectedRow);
 
-				try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("src/db/categories.txt"))) {
-					oos.writeObject(categories);
-				} catch (IOException e) {
-					e.printStackTrace();
-					JOptionPane.showMessageDialog(this, "Lỗi khi ghi dữ liệu vào file!", "Lỗi",
-							JOptionPane.ERROR_MESSAGE);
-					return;
-				}
+	                JOptionPane.showMessageDialog(this, "Thể loại đã được xóa!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+	            } catch (ClassNotFoundException | IOException e) {
+	                e.printStackTrace();
+	                JOptionPane.showMessageDialog(this, "Lỗi khi xóa thể loại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+	            }
+	        } else {
+	            JOptionPane.showMessageDialog(this, "Không tìm thấy thể loại trong danh sách!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+	        }
+	    } else {
+	        JOptionPane.showMessageDialog(this, "Vui lòng chọn một thể loại để xóa!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+	    }
 
-				JOptionPane.showMessageDialog(this, "Thể loại đã được xóa!", "Thông báo",
-						JOptionPane.INFORMATION_MESSAGE);
-			} else {
-				JOptionPane.showMessageDialog(this, "Không tìm thấy thể loại trong danh sách!", "Lỗi",
-						JOptionPane.ERROR_MESSAGE);
-			}
-		} else {
-			JOptionPane.showMessageDialog(this, "Vui lòng chọn một thể loại để xóa!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-		}
 	}
 	private void editCategory() {
 		int selectedRow = table.getSelectedRow();
@@ -242,11 +247,38 @@ public class CategoryManagementView extends JFrame {
 			System.out.println(categoryToEdit.getDescription());
 			CategoryEditView categoryEditView = new CategoryEditView(categoryToEdit);
 			categoryEditView.setVisible(true);
+			this.dispose();
 			
 			
 		}
 		
 //		Category selectedCategory = 
 	}
+//	private void editCategory() {
+//		int selectedRow = table.getSelectedRow();
+//		
+//		if (selectedRow != -1) {
+//			DefaultTableModel model = (DefaultTableModel) table.getModel();
+//
+//			List<Category> categories = null;
+//			try {
+//				categories = categoryDao.getAll();
+//			} catch (ClassNotFoundException | IOException e) {
+//				e.printStackTrace();
+//				JOptionPane.showMessageDialog(this, "Lỗi khi tải danh sách thể loại!", "Lỗi",
+//						JOptionPane.ERROR_MESSAGE);
+//				return;
+//			}
+//			
+//			Category categoryToEdit = categories.get(selectedRow);
+//			System.out.println(categoryToEdit.getDescription());
+//			CategoryEditView categoryEditView = new CategoryEditView(categoryToEdit);
+//			categoryEditView.setVisible(true);
+//			
+//			
+//		}
+//		
+////		Category selectedCategory = 
+//	}
 
 }
