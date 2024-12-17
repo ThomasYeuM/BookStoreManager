@@ -1,6 +1,5 @@
-
+/.metadata/
 /module-info.class
-
 *.txt
 *.class
 bin/

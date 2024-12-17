@@ -11,8 +11,10 @@ import util.GetFilePath;
 
 public class CategoryDAO implements DAO<Category> {
 
+
 	private final String FILE_PATH = GetFilePath.getAbsoluteFilePath() + "/src/db/categories.txt";
 	private final FileConnector<Category> fileConnector = new FileConnector<Category>();
+
 
 	@Override
 	public List<Category> getAll() throws ClassNotFoundException, IOException {
