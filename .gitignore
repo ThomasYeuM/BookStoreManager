@@ -1,8 +1,17 @@
+<<<<<<< HEAD
+/.metadata/
+/bin/
+=======
 
+>>>>>>> main
 /module-info.class
 
 *.txt
 *.class
 bin/
+<<<<<<< HEAD
+test/
+=======
 test/
 
+>>>>>>> main

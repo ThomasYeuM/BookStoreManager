@@ -110,7 +110,7 @@ public class CategoryManagementView extends JFrame {
 		JButton editCateBtn = new JButton("Sửa Thể Loại");
 		editCateBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Check");
+
 				editCategory();
 				
 			}
@@ -195,6 +195,7 @@ public class CategoryManagementView extends JFrame {
 
 				try {
 					categoryDao.delete(categoryToDelete);
+					System.out.println("da xoa");
 				} catch (ClassNotFoundException | IOException e) {
 					e.printStackTrace();
 					JOptionPane.showMessageDialog(this, "Lỗi khi xóa thể loại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
@@ -221,6 +222,7 @@ public class CategoryManagementView extends JFrame {
 		} else {
 			JOptionPane.showMessageDialog(this, "Vui lòng chọn một thể loại để xóa!", "Lỗi", JOptionPane.ERROR_MESSAGE);
 		}
+		loadCategoryData();
 	}
 	private void editCategory() {
 		int selectedRow = table.getSelectedRow();
@@ -242,11 +244,38 @@ public class CategoryManagementView extends JFrame {
 			System.out.println(categoryToEdit.getDescription());
 			CategoryEditView categoryEditView = new CategoryEditView(categoryToEdit);
 			categoryEditView.setVisible(true);
+			this.dispose();
 			
 			
 		}
 		
 //		Category selectedCategory = 
 	}
+//	private void editCategory() {
+//		int selectedRow = table.getSelectedRow();
+//		
+//		if (selectedRow != -1) {
+//			DefaultTableModel model = (DefaultTableModel) table.getModel();
+//
+//			List<Category> categories = null;
+//			try {
+//				categories = categoryDao.getAll();
+//			} catch (ClassNotFoundException | IOException e) {
+//				e.printStackTrace();
+//				JOptionPane.showMessageDialog(this, "Lỗi khi tải danh sách thể loại!", "Lỗi",
+//						JOptionPane.ERROR_MESSAGE);
+//				return;
+//			}
+//			
+//			Category categoryToEdit = categories.get(selectedRow);
+//			System.out.println(categoryToEdit.getDescription());
+//			CategoryEditView categoryEditView = new CategoryEditView(categoryToEdit);
+//			categoryEditView.setVisible(true);
+//			
+//			
+//		}
+//		
+////		Category selectedCategory = 
+//	}
 
 }
