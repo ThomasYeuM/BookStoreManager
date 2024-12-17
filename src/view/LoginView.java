@@ -25,8 +25,10 @@ import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import util.FormUtils;
+import util.GetFilePath;
 
 import javax.swing.JPasswordField;
+import util.ImageUtils;
 
 public class LoginView extends JFrame {
 
@@ -34,6 +36,8 @@ public class LoginView extends JFrame {
 	private JPanel contentPane;
 	private JTextField UsernameField;
 	private JPasswordField passwordField;
+	private JButton showPasswordButton;
+	private ImageUtils imageUtils = new ImageUtils();
 
 	public LoginView() {
 		String FILE_PATH = "src/db/users.txt";
@@ -47,7 +51,7 @@ public class LoginView extends JFrame {
 		contentPane.setLayout(null);
 
 		try {
-			Image image = ImageIO.read(new File("src/resources/logo.png"));
+			Image image = ImageIO.read(new File(GetFilePath.getAbsoluteFilePath() + "/src/resources/logo.png"));
 			JLabel label = new JLabel(new ImageIcon(image));
 			label.setBounds(60, 79, 398, 268);
 			contentPane.add(label);
@@ -105,9 +109,9 @@ public class LoginView extends JFrame {
 					}
 					JOptionPane.showMessageDialog(LoginView.this, "Đăng nhập thành công.");
 					dispose();
-					HomepageView homepage = new HomepageView();
+					HomepageView homepage = new HomepageView(username);
 					homepage.setVisible(true);
-					
+
 					return;
 
 				} catch (ClassNotFoundException e1) {
@@ -147,7 +151,55 @@ public class LoginView extends JFrame {
 		passwordField = new JPasswordField();
 		passwordField.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		passwordField.setBounds(519, 220, 346, 39);
+		passwordField.setBorder(BorderFactory.createCompoundBorder(UsernameField.getBorder(),
+				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		contentPane.add(passwordField);
+
+		try {
+			// Load eye icons
+			Image closedEyeImg = ImageIO.read(new File(GetFilePath.getAbsoluteFilePath() + "/src/resources/closed-eyes.png"));
+			Image openEyeImg = ImageIO.read(new File(GetFilePath.getAbsoluteFilePath() + "/src/resources/eye-close-up.png"));
+			
+			// Resize icons to fit the button
+			Image resizedClosedEye = closedEyeImg.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+			Image resizedOpenEye = openEyeImg.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+
+			// Create icons
+			ImageIcon closedEyeIcon = new ImageIcon(resizedClosedEye);
+			ImageIcon openEyeIcon = new ImageIcon(resizedOpenEye);
+
+			// Create button with closed eye icon
+			showPasswordButton = new JButton(closedEyeIcon);
+			showPasswordButton.setBounds(875, 220, 39, 39);
+			showPasswordButton.setBorderPainted(false);
+			showPasswordButton.setContentAreaFilled(false);
+			
+			showPasswordButton.addActionListener(new ActionListener() {
+				private boolean isPasswordVisible = false;
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if (!isPasswordVisible) {
+						// Show password
+						passwordField.setEchoChar('\u0000');
+						showPasswordButton.setIcon(openEyeIcon);
+						isPasswordVisible = true;
+					} else {
+						// Hide password
+						passwordField.setEchoChar('*');
+						showPasswordButton.setIcon(closedEyeIcon);
+						isPasswordVisible = false;
+					}
+				}
+			});
+			contentPane.add(showPasswordButton);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
+
+
 }
+

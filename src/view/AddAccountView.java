@@ -5,6 +5,10 @@ import java.awt.*;
 import java.awt.event.*;
 import dao.UserDao;
 import model.User;
+
+import util.GenNewId;
+
+
 import java.io.IOException;
 import java.util.List;
 
@@ -23,7 +27,23 @@ public class AddAccountView extends JFrame {
 		this.parentView = parentView; 
 		userDao = new UserDao();
 
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				// Show confirmation dialog
+
+				// Close current window
+				dispose();
+
+				// Open HomepageView
+				new AccountManagementView().setVisible(true);
+
+			}
+		});
+
 		setBounds(100, 100, 450, 350);
 		contentPane = new JPanel();
 		contentPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -79,8 +99,9 @@ public class AddAccountView extends JFrame {
                         } else {
                             boolean isVerify = chkIsVerified.isSelected();
                             
-                            int maxId = users.stream().mapToInt(User::getId).max().orElse(0);
-                            int newId = maxId + 1;
+
+                            int newId = GenNewId.getNewUserId();
+
 
                             User newUser = new User(newId, username, email, password, isVerify); 
 

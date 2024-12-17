@@ -28,6 +28,8 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 import view.CategoryEditView;
 public class CategoryManagementView extends JFrame {
@@ -57,7 +59,26 @@ public class CategoryManagementView extends JFrame {
 	 * Create the frame.
 	 */
 	public CategoryManagementView() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+    	addWindowListener(new WindowAdapter() {
+    	    @Override
+    	    public void windowClosing(WindowEvent e) {
+    	        // Show confirmation dialog
+    	        if (JOptionPane.showConfirmDialog(
+    	            null, 
+    	            "Do you really want to exit?", 
+    	            "Confirm", 
+    	            JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+    	            
+    	            // Close current window
+    	            dispose();
+    	            
+    	            // Open HomepageView
+    	            
+    	        }
+    	    }
+    	});
+
 		setBounds(100, 100, 796, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -89,6 +110,9 @@ public class CategoryManagementView extends JFrame {
 		JButton editCateBtn = new JButton("Sửa Thể Loại");
 		editCateBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
+
+
 				editCategory();
 				
 			}
@@ -111,7 +135,7 @@ public class CategoryManagementView extends JFrame {
 		doneBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-
+//				 new HomepageView().setVisible(true);
 			}
 		});
 		doneBtn.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -153,52 +177,58 @@ public class CategoryManagementView extends JFrame {
 	}
 
 	private void deleteSelectedCategory() {
-		int selectedRow = table.getSelectedRow();
+	    int selectedRow = table.getSelectedRow();
+	    
+	    if (selectedRow != -1) {
+	        DefaultTableModel model = (DefaultTableModel) table.getModel();
 
-		if (selectedRow != -1) {
-			DefaultTableModel model = (DefaultTableModel) table.getModel();
+	        List<Category> categories = null;
+	        try {
+	            categories = categoryDao.getAll();
+	        } catch (ClassNotFoundException | IOException e) {
+	            e.printStackTrace();
+	            JOptionPane.showMessageDialog(this, "Lỗi khi tải danh sách thể loại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+	            return;
+	        }
 
-			List<Category> categories = null;
-			try {
-				categories = categoryDao.getAll();
-			} catch (ClassNotFoundException | IOException e) {
-				e.printStackTrace();
-				JOptionPane.showMessageDialog(this, "Lỗi khi tải danh sách thể loại!", "Lỗi",
-						JOptionPane.ERROR_MESSAGE);
-				return;
-			}
+	        if (selectedRow < categories.size()) {
+	            Category categoryToDelete = categories.get(selectedRow);
 
-			if (selectedRow < categories.size()) {
-				Category categoryToDelete = categories.get(selectedRow);
+	            try {
+	                // Remove the category from the list first
+	                categories.remove(selectedRow);
+	                
+	                // Then delete from DAO
+	                categoryDao.delete(categoryToDelete);
+	                
+	                // Immediately save the updated list to file
+	                try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("src/db/categories.txt"))) {
+	                    oos.writeObject(categories);
+	                } catch (IOException e) {
+	                    e.printStackTrace();
+	                    JOptionPane.showMessageDialog(this, "Lỗi khi ghi dữ liệu vào file!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+	                    return;
+	                }
 
-				try {
-					categoryDao.delete(categoryToDelete);
-				} catch (ClassNotFoundException | IOException e) {
-					e.printStackTrace();
-					JOptionPane.showMessageDialog(this, "Lỗi khi xóa thể loại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
 
-				model.removeRow(selectedRow);
+	                // Remove from table model
+	                model.removeRow(selectedRow);
 
-				try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("src/db/categories.txt"))) {
-					oos.writeObject(categories);
-				} catch (IOException e) {
-					e.printStackTrace();
-					JOptionPane.showMessageDialog(this, "Lỗi khi ghi dữ liệu vào file!", "Lỗi",
-							JOptionPane.ERROR_MESSAGE);
-					return;
-				}
 
-				JOptionPane.showMessageDialog(this, "Thể loại đã được xóa!", "Thông báo",
-						JOptionPane.INFORMATION_MESSAGE);
-			} else {
-				JOptionPane.showMessageDialog(this, "Không tìm thấy thể loại trong danh sách!", "Lỗi",
-						JOptionPane.ERROR_MESSAGE);
-			}
-		} else {
-			JOptionPane.showMessageDialog(this, "Vui lòng chọn một thể loại để xóa!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-		}
+	                JOptionPane.showMessageDialog(this, "Thể loại đã được xóa!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+	            } catch (ClassNotFoundException | IOException e) {
+	                e.printStackTrace();
+	                JOptionPane.showMessageDialog(this, "Lỗi khi xóa thể loại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+	            }
+	        } else {
+	            JOptionPane.showMessageDialog(this, "Không tìm thấy thể loại trong danh sách!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+	        }
+	    } else {
+	        JOptionPane.showMessageDialog(this, "Vui lòng chọn một thể loại để xóa!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+	    }
+
+
+
 	}
 	private void editCategory() {
 		int selectedRow = table.getSelectedRow();
@@ -220,11 +250,10 @@ public class CategoryManagementView extends JFrame {
 			System.out.println(categoryToEdit.getDescription());
 			CategoryEditView categoryEditView = new CategoryEditView(categoryToEdit);
 			categoryEditView.setVisible(true);
+			this.dispose();
 			
 			
 		}
-		
-//		Category selectedCategory = 
 	}
 
 }

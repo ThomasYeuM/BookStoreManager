@@ -8,12 +8,14 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 
 public class HomepageView extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private static String Username;
 
 	/**
 	 * Launch the application.
@@ -22,7 +24,7 @@ public class HomepageView extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					HomepageView frame = new HomepageView();
+					HomepageView frame = new HomepageView(Username);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -34,7 +36,8 @@ public class HomepageView extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public HomepageView() {
+	public HomepageView(String Username) {
+		this.Username = Username;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1300, 750);
 		contentPane = new JPanel();
@@ -42,13 +45,14 @@ public class HomepageView extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
+
 		JButton qlySachBtn = new JButton("Quản lý sách");
 		qlySachBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BookManagementView bmv = new BookManagementView();
+				BookManagementView bmv;
+				bmv = new BookManagementView();
 				bmv.setVisible(true);
-
 			}
 		});
 		qlySachBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -58,7 +62,7 @@ public class HomepageView extends JFrame {
 		JButton qlHoaDonbtn = new JButton("Quản lý hóa đơn");
 		qlHoaDonbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BillManagementView bmmv = new BillManagementView();
+				BillManagementView bmmv = new BillManagementView(Username);
 				bmmv.setVisible(true);
 
 			}
@@ -73,7 +77,9 @@ public class HomepageView extends JFrame {
                 // Khi nhấn vào nút, mở AccountManagementView
                 AccountManagementView amv = new AccountManagementView();
                 amv.setVisible(true);
-                dispose(); // Đóng cửa sổ Homepage khi chuyển đến AccountManagementView
+
+                
+
             }
         });
 		qlyTaiKhoanKHbtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -85,15 +91,33 @@ public class HomepageView extends JFrame {
 		chartsbtn.setBounds(983, 25, 221, 50);
 		contentPane.add(chartsbtn);
 		
-		JButton qlyCategory = new JButton("Quản lý thể loại");
-		qlyCategory.addActionListener(new ActionListener() {
+		JButton qlyCategoryBtn = new JButton("Quản lý thể loại");
+		qlyCategoryBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CategoryManagementView categoryManagement = new CategoryManagementView();
 				categoryManagement.setVisible(true);
 			}
 		});
-		qlyCategory.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		qlyCategory.setBounds(80, 120, 221, 50);
-		contentPane.add(qlyCategory);
+
+		qlyCategoryBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		qlyCategoryBtn.setBounds(80, 120, 221, 50);
+		contentPane.add(qlyCategoryBtn);
+		
+		JButton doiMatKhaubtn = new JButton("Đổi mật khẩu");
+		doiMatKhaubtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Khi nhấn vào nút, mở AccountManagementView
+                AccountManagementView amv = new AccountManagementView();
+                amv.setVisible(true);
+                
+            }
+        });
+		doiMatKhaubtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		doiMatKhaubtn.setBounds(400, 120, 221, 50);
+		contentPane.add(doiMatKhaubtn);
+		
+		
+
 	}
+
 }

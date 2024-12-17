@@ -16,13 +16,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 
 public class BookManagementView extends JFrame {
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private JTable table;
-    BookDao BookDAO = new BookDao();
+    BookDao bookDAO = new BookDao();
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
             try {
@@ -35,7 +37,26 @@ public class BookManagementView extends JFrame {
     }
 
     public BookManagementView() {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+    	addWindowListener(new WindowAdapter() {
+    	    @Override
+    	    public void windowClosing(WindowEvent e) {
+    	        // Show confirmation dialog
+    	        if (JOptionPane.showConfirmDialog(
+    	            null, 
+    	            "Do you really want to exit?", 
+    	            "Confirm", 
+    	            JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+    	            
+    	            // Close current window
+    	            dispose();
+    	            
+    	            // Open HomepageView
+//    	            new HomepageView().setVisible(true);
+    	        }
+    	    }
+    	});
+  
         setBounds(100, 100, 888, 600);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -54,11 +75,18 @@ public class BookManagementView extends JFrame {
 
         loadBookData();
 
-        JButton backBtn = new JButton("Done");
-        backBtn.addActionListener(e -> dispose());
-        backBtn.setFont(new Font("Tahoma", Font.PLAIN, 14));
-        backBtn.setBounds(733, 510, 131, 43);
-        contentPane.add(backBtn);
+ 
+        
+        JButton doneBtn = new JButton("Xong");
+		doneBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				 new HomepageView("").setVisible(true);
+			}
+		});
+		doneBtn.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		doneBtn.setBounds(733, 510, 131, 43);
+		contentPane.add(doneBtn);
         
         JButton addNewBookBtn = new JButton("Thêm Sách Mới");
         addNewBookBtn.addActionListener(new ActionListener() {
@@ -75,6 +103,15 @@ public class BookManagementView extends JFrame {
         JButton suaSachBtn = new JButton("Sửa Tác Phẩm");
         suaSachBtn.setFont(new Font("Tahoma", Font.PLAIN, 14));
         suaSachBtn.setBounds(199, 510, 156, 43);
+        suaSachBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+
+
+				editSelectedBook();
+				
+			}
+		});
         contentPane.add(suaSachBtn);
         
         JButton deleBtn = new JButton("Xóa Tác Phẩm");
@@ -89,12 +126,12 @@ public class BookManagementView extends JFrame {
     }
 
     private void loadBookData() {
-        String[] columnNames = { "ID", "Tên Sách", "Số Lượng", "Giá", "Tác Giả", "Mô Tả" };
+        String[] columnNames = { "ID", "Tên Sách", "Số Lượng", "Giá", "Tác Giả","Thể loại", "Mô Tả" };
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
 
         List<Book> books = null;
 		try {
-			books = BookDAO.getAll();
+			books = bookDAO.getAll();
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(this, "Lỗi khi tải danh sách thể loại!", "Lỗi",
@@ -108,6 +145,7 @@ public class BookManagementView extends JFrame {
                 row.add(book.getQty());
                 row.add(book.getPrice());
                 row.add(book.getAuthor());
+                row.add(book.getCategory().getName());
                 row.add(book.getDescription());
                 model.addRow(row);
             }
@@ -135,7 +173,7 @@ public class BookManagementView extends JFrame {
 
 			List<Book> books = null;
 			try {
-				books = BookDAO.getAll();
+				books = bookDAO.getAll();
 			} catch (ClassNotFoundException | IOException e) {
 				e.printStackTrace();
 				JOptionPane.showMessageDialog(this, "Lỗi khi tải danh sách thể loại!", "Lỗi",
@@ -147,7 +185,7 @@ public class BookManagementView extends JFrame {
 				Book bookToDelete = books.get(selectedRow);
 
 				try {
-					BookDAO.delete(bookToDelete);
+					bookDAO.delete(bookToDelete);
 				} catch (ClassNotFoundException | IOException e) {
 					e.printStackTrace();
 					JOptionPane.showMessageDialog(this, "Lỗi khi xóa thể loại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
@@ -174,6 +212,34 @@ public class BookManagementView extends JFrame {
 		} else {
 			JOptionPane.showMessageDialog(this, "Vui lòng chọn một thể loại để xóa!", "Lỗi", JOptionPane.ERROR_MESSAGE);
 		}
+	}
+	
+	private void editSelectedBook() {
+		int selectedRow = table.getSelectedRow();
+		
+		if (selectedRow != -1) {
+			DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+			List<Book> books = null;
+			try {
+				books = bookDAO.getAll();
+			} catch (ClassNotFoundException | IOException e) {
+				e.printStackTrace();
+				JOptionPane.showMessageDialog(this, "Lỗi khi tải danh sách sách!", "Lỗi",
+						JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			
+			Book bookToEdit = books.get(selectedRow);
+			System.out.println(bookToEdit.getId());
+			BookEditView bookEditView = new BookEditView(bookToEdit);
+			bookEditView.setVisible(true);
+			this.dispose();
+			
+			
+		}
+		
+//		Category selectedCategory = 
 	}
 
 }

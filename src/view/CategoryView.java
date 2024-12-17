@@ -15,7 +15,10 @@ import javax.swing.JTextField;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.util.List;
 import java.awt.event.ActionEvent;
 
 import model.Category;
@@ -27,6 +30,7 @@ public class CategoryView extends JFrame {
 	private JPanel contentPane;
 	private JTextField idTf;
 	private JTextField nameTf;
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -39,8 +43,23 @@ public class CategoryView extends JFrame {
 			}
 		});
 	}
+
 	public CategoryView() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				// Show confirmation dialog
+
+				// Close current window
+				dispose();
+
+				// Open HomepageView
+				new CategoryManagementView().setVisible(true);
+
+			}
+		});
 		setBounds(100, 100, 479, 502);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -94,12 +113,22 @@ public class CategoryView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					String idStr = idTf.getText().trim();
+					CategoryDAO cateDao = new CategoryDAO();
+					List<Category> categories = cateDao.getAll();
+					for (Category category : categories) {
+						if (Integer.parseInt(idStr) == category.getId()) {
+							JOptionPane.showMessageDialog(CategoryView.this, "Mã Thể Loại đã tồn tại!", "Lỗi Nhập Liệu",
+									JOptionPane.ERROR_MESSAGE);
+							return;
+						}
+					}
+
 					if (idStr.isEmpty()) {
 						JOptionPane.showMessageDialog(CategoryView.this, "Mã Thể Loại không được để trống!",
 								"Lỗi Nhập Liệu", JOptionPane.ERROR_MESSAGE);
 						return;
 					}
-					if (!idStr.matches("\\d+")) { 
+					if (!idStr.matches("\\d+")) {
 						JOptionPane.showMessageDialog(CategoryView.this, "Mã Thể Loại phải là số nguyên dương!",
 								"Lỗi Nhập Liệu", JOptionPane.ERROR_MESSAGE);
 						return;
@@ -114,7 +143,7 @@ public class CategoryView extends JFrame {
 					}
 					String des = textArea.getText().trim();
 					Category newCate = new Category(id, name, des);
-					CategoryDAO cateDao = new CategoryDAO();
+
 					cateDao.add(newCate);
 					JOptionPane.showMessageDialog(CategoryView.this, "Thêm thể loại mới thành công!", "Thông Báo",
 							JOptionPane.INFORMATION_MESSAGE);
