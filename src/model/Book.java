@@ -24,6 +24,22 @@ public class Book implements Serializable{
 	}
 
 
+	
+	public Book(String name, double price) {
+		super();
+		this.name = name;
+
+		this.price = price;
+	}
+
+
+
+	public Book() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
 	public int getId() {
 		return id;
 	}
@@ -102,8 +118,11 @@ public class Book implements Serializable{
 	@Override
 	public String toString() {
 		return "Book [id=" + id + ", name=" + name + ", qty=" + qty + ", price=" + price + ", author=" + author
-				+ ", description=" + description + "]";
+				+ ", description=" + description + ", category=" + category + "]";
 	}
+
+
+
 	
 	
 	
