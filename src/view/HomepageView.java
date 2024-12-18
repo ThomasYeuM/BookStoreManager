@@ -74,8 +74,13 @@ public class HomepageView extends JFrame {
 		JButton qlyTaiKhoanKHbtn = new JButton("Quản lý tài khoản");
 		qlyTaiKhoanKHbtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Khi nhấn vào nút, mở AccountManagementView
-                AccountManagementView amv = new AccountManagementView();
+                AccountManagementView amv = null;
+				try {
+					amv = new AccountManagementView();
+				} catch (ClassNotFoundException | IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
                 amv.setVisible(true);
 
                 
@@ -104,20 +109,28 @@ public class HomepageView extends JFrame {
 		contentPane.add(qlyCategoryBtn);
 		
 		JButton doiMatKhaubtn = new JButton("Đổi mật khẩu");
-		doiMatKhaubtn.addActionListener(new ActionListener() {
+        doiMatKhaubtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Khi nhấn vào nút, mở AccountManagementView
-                AccountManagementView amv = new AccountManagementView();
-                amv.setVisible(true);
-                
+                ChangePasswordView changePasswordView = new ChangePasswordView(Username, HomepageView.this);
+                changePasswordView.setVisible(true);
+                HomepageView.this.setVisible(false); 
             }
         });
-		doiMatKhaubtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		doiMatKhaubtn.setBounds(400, 120, 221, 50);
-		contentPane.add(doiMatKhaubtn);
-		
-		
-
+        doiMatKhaubtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        doiMatKhaubtn.setBounds(400, 120, 221, 50);
+        contentPane.add(doiMatKhaubtn);
+        JButton dangXuatBtn = new JButton("Đăng xuất");
+		dangXuatBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Quay lại trang đăng nhập
+				LoginView loginView = new LoginView();
+				loginView.setVisible(true);
+				HomepageView.this.setVisible(false); // Ẩn trang chủ
+			}
+		});
+		dangXuatBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		dangXuatBtn.setBounds(700, 120, 221, 50);
+		contentPane.add(dangXuatBtn);
 	}
 
 }

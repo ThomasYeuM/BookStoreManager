@@ -165,6 +165,7 @@ public class SignupView extends JFrame {
                 String confirmPassword = ConfirmPasswordTextField.getText();
                 String email = EmailTextField.getText();
                 String enteredOtp = verificationCodeField.getText().trim();
+                String newrole="user";
 
                 // Kiểm tra OTP
                 if (enteredOtp.isEmpty()) {
@@ -185,7 +186,7 @@ public class SignupView extends JFrame {
 
                 try {
                     int id = userController.getAllUsers().size() + 1;
-                    User newUser = new User(id, username, email, password, false);
+                    User newUser = new User(id, username, email, password, newrole, false);
 
                     if (userController.addUser(newUser)) {
                         JOptionPane.showMessageDialog(SignupView.this, "Đăng ký thành công!");
