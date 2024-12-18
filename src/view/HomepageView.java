@@ -131,6 +131,18 @@ public class HomepageView extends JFrame {
 		dangXuatBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		dangXuatBtn.setBounds(700, 120, 221, 50);
 		contentPane.add(dangXuatBtn);
+		
+		JButton taoHoaDonBtn = new JButton("Tạo hóa đơn");
+		taoHoaDonBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		taoHoaDonBtn.setBounds(983, 120, 221, 50); // Đặt vị trí và kích thước cho nút
+		taoHoaDonBtn.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        // Mở cửa sổ BillView cho người dùng
+		        BillView billView = new BillView(Username); // Truyền username vào constructor
+		        billView.setVisible(true); // Hiển thị cửa sổ tạo hóa đơn
+		    }
+		});
+		contentPane.add(taoHoaDonBtn);
 	}
 
 }
