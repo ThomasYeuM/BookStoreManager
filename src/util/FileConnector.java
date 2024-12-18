@@ -3,6 +3,7 @@ package util;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class FileConnector<T> {
 
@@ -39,5 +40,25 @@ public class FileConnector<T> {
         List<T> objects = readFromFile(fileName);
         objects.add(newObject);
         writeToFile(fileName, objects);  // Ghi lại toàn bộ danh sách
+    }
+    public boolean updateObject(String filePath, T updatedObject, Predicate<T> predicate) throws IOException, ClassNotFoundException {
+        List<T> objects = readFromFile(filePath);
+        boolean isUpdated = false;
+
+        // Tìm đối tượng trong danh sách và thay thế nếu phù hợp
+        for (int i = 0; i < objects.size(); i++) {
+            if (predicate.test(objects.get(i))) {
+                objects.set(i, updatedObject);  // Thay thế đối tượng cũ
+                isUpdated = true;
+                break;
+            }
+        }
+
+        // Ghi lại dữ liệu vào tệp nếu có sự thay đổi
+        if (isUpdated) {
+            writeToFile(filePath, objects);
+        }
+
+        return isUpdated;
     }
 }

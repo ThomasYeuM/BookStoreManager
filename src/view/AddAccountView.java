@@ -5,7 +5,9 @@ import java.awt.*;
 import java.awt.event.*;
 import dao.UserDao;
 import model.User;
+
 import util.GenNewId;
+
 
 import java.io.IOException;
 import java.util.List;
@@ -25,6 +27,8 @@ public class AddAccountView extends JFrame {
 		this.parentView = parentView; 
 		userDao = new UserDao();
 
+
+
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -39,6 +43,7 @@ public class AddAccountView extends JFrame {
 
 			}
 		});
+
 		setBounds(100, 100, 450, 350);
 		contentPane = new JPanel();
 		contentPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -94,7 +99,9 @@ public class AddAccountView extends JFrame {
                         } else {
                             boolean isVerify = chkIsVerified.isSelected();
                             
+
                             int newId = GenNewId.getNewUserId();
+
 
                             User newUser = new User(newId, username, email, password, isVerify); 
 

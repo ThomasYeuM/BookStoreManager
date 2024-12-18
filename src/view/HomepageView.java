@@ -76,7 +76,9 @@ public class HomepageView extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 AccountManagementView amv = new AccountManagementView();
                 amv.setVisible(true);
+
                 
+
             }
         });
 		qlyTaiKhoanKHbtn.setFont(new Font("Tahoma", Font.PLAIN, 16));

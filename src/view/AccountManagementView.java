@@ -18,6 +18,7 @@ public class AccountManagementView extends JFrame {
 
 	public AccountManagementView() {
 		userDao = new UserDao(); //
+
 		
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     	addWindowListener(new WindowAdapter() {
@@ -39,7 +40,7 @@ public class AccountManagementView extends JFrame {
     	    }
     	});
 
-	
+
 		setBounds(100, 100, 600, 400);
 		contentPane = new JPanel();
 		contentPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -76,7 +77,10 @@ public class AccountManagementView extends JFrame {
 		    public void actionPerformed(ActionEvent e) {
 		        AddAccountView addAccountView = new AddAccountView(AccountManagementView.this); // Truyền đối tượng AccountManagementView
 		        addAccountView.setVisible(true);
+
+
 		        dispose();
+
 		    }
 		});
 

@@ -11,6 +11,10 @@ import model.User;
 public class UserDao implements DAO<User>{
 	String FILE_PATH = "src/db/users.txt";
 	private final FileConnector<User> fileConnector = new FileConnector<User>();
+	public boolean isUserExist(String username, String email) throws ClassNotFoundException, IOException {
+		List<User> users = fileConnector.readFromFile(FILE_PATH);
+		return users.stream().anyMatch(user -> user.getUsername().equals(username) || user.getEmail().equals(email));
+	}
 
 	@Override
 	public List<User> getAll() throws ClassNotFoundException, IOException {
@@ -65,5 +69,22 @@ public class UserDao implements DAO<User>{
 		}
 		return null;
 	}
+	public boolean updatePassword(String email, String newPassword) throws ClassNotFoundException, IOException {
+        List<User> users = fileConnector.readFromFile(FILE_PATH);
 
+        User userToUpdate = null;
+        for (User user : users) {
+            if (user.getEmail().equals(email)) {
+                user.setPassword(newPassword);  // Cập nhật mật khẩu mới
+                userToUpdate = user;  // Lưu đối tượng người dùng đã được cập nhật
+                break;
+            }
+        }
+
+        if (userToUpdate != null) {
+            return fileConnector.updateObject(FILE_PATH, userToUpdate, user -> user.getEmail().equals(email));
+        }
+
+        return false;
+    }
 }
