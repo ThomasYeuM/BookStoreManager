@@ -52,6 +52,9 @@ public class UserDao implements DAO<User>{
 
 	@Override
 	public boolean delete(User deleteUser) throws ClassNotFoundException, IOException {
+		if ("admin".equalsIgnoreCase(deleteUser.getRole())) {
+	        return false;
+	    }
 		List<User> users = getAll();
 		users.removeIf(User -> User.getId() == deleteUser.getId());
 		fileConnector.writeToFile(FILE_PATH, users);

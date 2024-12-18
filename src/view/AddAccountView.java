@@ -39,7 +39,12 @@ public class AddAccountView extends JFrame {
 				dispose();
 
 				// Open HomepageView
-				new AccountManagementView().setVisible(true);
+				try {
+					new AccountManagementView().setVisible(true);
+				} catch (ClassNotFoundException | IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 
 			}
 		});
@@ -85,7 +90,7 @@ public class AddAccountView extends JFrame {
 				String username = txtUsername.getText();
 				String email = txtEmail.getText();
 				String password = new String(txtPassword.getPassword());
-
+				String newrole="user";
 				if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Vui lòng điền đầy đủ thông tin!", "Thông báo",
 							JOptionPane.ERROR_MESSAGE);
@@ -103,7 +108,7 @@ public class AddAccountView extends JFrame {
                             int newId = GenNewId.getNewUserId();
 
 
-                            User newUser = new User(newId, username, email, password, isVerify); 
+                            User newUser = new User(newId, username, email, password, newrole, isVerify); 
 
                             boolean result = userDao.add(newUser);
                             if (result) {

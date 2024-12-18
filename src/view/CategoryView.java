@@ -22,15 +22,14 @@ import java.util.List;
 import java.awt.event.ActionEvent;
 
 import model.Category;
+import util.GenNewId;
 import dao.CategoryDAO;
 import javax.swing.JTextArea;
 
 public class CategoryView extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField idTf;
-	private JTextField nameTf;
-
+	private JTextField nameTf;  // Chỉ cần ô nhập tên thể loại
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -69,33 +68,28 @@ public class CategoryView extends JFrame {
 		lblNewLabel.setBounds(124, 10, 211, 27);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 22));
 		contentPane.add(lblNewLabel);
-		JLabel lblNewLabel_1 = new JLabel("Mã Thể Loại");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblNewLabel_1.setBounds(38, 96, 118, 35);
-		contentPane.add(lblNewLabel_1);
+		
 		JLabel lblNewLabel_1_1 = new JLabel("Tên Thể Loại");
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblNewLabel_1_1.setBounds(38, 176, 118, 35);
+		lblNewLabel_1_1.setBounds(38, 96, 118, 35);
 		contentPane.add(lblNewLabel_1_1);
 		JLabel lblNewLabel_1_2 = new JLabel("Mô Tả");
 		lblNewLabel_1_2.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblNewLabel_1_2.setBounds(38, 256, 118, 35);
+		lblNewLabel_1_2.setBounds(38, 176, 118, 35);
 		contentPane.add(lblNewLabel_1_2);
-		idTf = new JTextField();
-		idTf.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		idTf.setColumns(10);
-		idTf.setBounds(211, 96, 244, 35);
-		contentPane.add(idTf);
+		
 		nameTf = new JTextField();
 		nameTf.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		nameTf.setColumns(10);
-		nameTf.setBounds(211, 176, 244, 35);
+		nameTf.setBounds(211, 96, 244, 35);
 		contentPane.add(nameTf);
+		
 		JTextArea textArea = new JTextArea();
-		textArea.setBounds(211, 256, 244, 128);
+		textArea.setBounds(211, 176, 244, 128);
 		Border border = BorderFactory.createLineBorder(Color.GRAY, 1);
 		textArea.setBorder(BorderFactory.createCompoundBorder(border, BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		contentPane.add(textArea);
+		
 		JButton cancelBtn = new JButton("Hủy");
 		cancelBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -106,34 +100,16 @@ public class CategoryView extends JFrame {
 			}
 		});
 		cancelBtn.setFont(new Font("Tahoma", Font.BOLD, 18));
-		cancelBtn.setBounds(211, 394, 111, 35);
+		cancelBtn.setBounds(211, 340, 111, 35);
 		contentPane.add(cancelBtn);
+		
 		JButton saveBtn = new JButton("Lưu");
 		saveBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					String idStr = idTf.getText().trim();
-					CategoryDAO cateDao = new CategoryDAO();
-					List<Category> categories = cateDao.getAll();
-					for (Category category : categories) {
-						if (Integer.parseInt(idStr) == category.getId()) {
-							JOptionPane.showMessageDialog(CategoryView.this, "Mã Thể Loại đã tồn tại!", "Lỗi Nhập Liệu",
-									JOptionPane.ERROR_MESSAGE);
-							return;
-						}
-					}
+					// Lấy mã thể loại mới tự động
+					int id = GenNewId.getNewCategoryId();  // Sử dụng phương thức trong lớp GenNewId
 
-					if (idStr.isEmpty()) {
-						JOptionPane.showMessageDialog(CategoryView.this, "Mã Thể Loại không được để trống!",
-								"Lỗi Nhập Liệu", JOptionPane.ERROR_MESSAGE);
-						return;
-					}
-					if (!idStr.matches("\\d+")) {
-						JOptionPane.showMessageDialog(CategoryView.this, "Mã Thể Loại phải là số nguyên dương!",
-								"Lỗi Nhập Liệu", JOptionPane.ERROR_MESSAGE);
-						return;
-					}
-					int id = Integer.parseInt(idStr);
 					String name = nameTf.getText().trim();
 					if (name.isEmpty() || name.length() < 3) {
 						JOptionPane.showMessageDialog(CategoryView.this,
@@ -141,9 +117,11 @@ public class CategoryView extends JFrame {
 								JOptionPane.ERROR_MESSAGE);
 						return;
 					}
+					
 					String des = textArea.getText().trim();
 					Category newCate = new Category(id, name, des);
 
+					CategoryDAO cateDao = new CategoryDAO();
 					cateDao.add(newCate);
 					JOptionPane.showMessageDialog(CategoryView.this, "Thêm thể loại mới thành công!", "Thông Báo",
 							JOptionPane.INFORMATION_MESSAGE);
@@ -161,7 +139,7 @@ public class CategoryView extends JFrame {
 			}
 		});
 		saveBtn.setFont(new Font("Tahoma", Font.BOLD, 18));
-		saveBtn.setBounds(344, 394, 111, 35);
+		saveBtn.setBounds(344, 340, 111, 35);
 		contentPane.add(saveBtn);
 	}
 }

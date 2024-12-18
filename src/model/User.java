@@ -8,6 +8,7 @@ public class User implements Serializable {
 	private String username;
 	private String email;
 	private String password;
+	private String role;
 	private boolean isVerify;
 	public int getId() {
 		return id;
@@ -27,6 +28,12 @@ public class User implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
+	}
 	public String getPassword() {
 		return password;
 	}
@@ -39,18 +46,19 @@ public class User implements Serializable {
 	public void setVerify(boolean isVerify) {
 		this.isVerify = isVerify;
 	}
-	public User(int id, String username, String email, String password, boolean isVerify) {
+	public User(int id, String username, String email, String password, String role, boolean isVerify) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.email = email;
 		this.password = password;
+		this.role=role;
 		this.isVerify = isVerify;
 	}
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password
-				+ ", isVerify=" + isVerify + "]";
+				+ ", role=" + role + ", isVerify=" + isVerify + "]";
 	}
 	
 	
