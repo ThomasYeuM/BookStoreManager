@@ -23,6 +23,7 @@ public class EditAccountView extends JFrame {
 		this.userToEdit = user;
 		this.parentView = parentView;
 
+
 		
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     	addWindowListener(new WindowAdapter() {
@@ -43,6 +44,7 @@ public class EditAccountView extends JFrame {
     	        }
     	    }
     	});
+
 		setBounds(100, 100, 400, 300);
 		JPanel contentPane = new JPanel();
 		contentPane.setLayout(new GridLayout(4, 2, 10, 10));

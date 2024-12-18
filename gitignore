@@ -1,0 +1,7 @@
+/.metadata/
+/bin/
+bills.txt
+books.txt
+categories.txt
+users.txt
+*.txt

@@ -77,7 +77,9 @@ public class HomepageView extends JFrame {
                 // Khi nhấn vào nút, mở AccountManagementView
                 AccountManagementView amv = new AccountManagementView();
                 amv.setVisible(true);
+
                 
+
             }
         });
 		qlyTaiKhoanKHbtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
