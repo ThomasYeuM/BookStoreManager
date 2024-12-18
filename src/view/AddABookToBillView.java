@@ -35,6 +35,7 @@ public class AddABookToBillView extends JFrame {
 	private int selectedQuantity;
 	private double selectedPrice;
 	private BookDao BookDAO = new BookDao();
+	private JButton btnNewButton;
 	public String getSelectedBookName() {
 		return selectedBookName;
 	}
@@ -74,6 +75,16 @@ public class AddABookToBillView extends JFrame {
 		addBtn.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		addBtn.setBounds(456, 479, 164, 46);
 		contentPane.add(addBtn);
+		
+		btnNewButton = new JButton("Hủy");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnNewButton.setBounds(10, 479, 164, 46);
+		contentPane.add(btnNewButton);
 	}
 
 	

@@ -38,29 +38,29 @@ import util.GenNewId;
      * Create the frame.
      */
     public class BillManagementView extends JFrame {
+        static List<Bill> bills = null;
         public void loadBillData() {
-            List<Bill> bills = null;
             try {
-                bills = billDao.getAll(); // Lấy tất cả hóa đơn từ cơ sở dữ liệu
+                bills = billDao.getAll();
             } catch (ClassNotFoundException | IOException e) {
                 e.printStackTrace();
             }
 
+            model.setRowCount(0);
+
             if (bills != null) {
-                // Lặp qua danh sách hóa đơn và thêm vào bảng
                 for (Bill bill : bills) {
                     Vector<Object> row = new Vector<>();
-                    row.add(bill.getId()); // Mã hóa đơn
-                    row.add(bill.getCustomerName()); // Tên khách hàng
-                    row.add(bill.getAdminID()); // Người tạo
-                    row.add(bill.getDate()); // Ngày tạo
-                    row.add(bill.getProductExpense()); // Tổng giá tiền
-
-                    model.addRow(row); // Thêm dòng vào bảng
+                    row.add(bill.getId());
+                    row.add(bill.getCustomerName());
+                    row.add(bill.getAdminID());
+                    row.add(bill.getDate());
+                    row.add(bill.getProductExpense());
+                    model.addRow(row);
                 }
             }
         }
-  
+
     	private static final long serialVersionUID = 1L;
     	private JPanel contentPane;
     	private JTable table;
@@ -101,12 +101,12 @@ import util.GenNewId;
             contentPane.setLayout(null);
 
             JLabel lblTitle = new JLabel("Quản Lý Hóa Đơn");
-            lblTitle.setBounds(335, 10, 198, 116);
+            lblTitle.setBounds(335, 10, 198, 63);
             lblTitle.setFont(new Font("Tahoma", Font.BOLD, 22));
             contentPane.add(lblTitle);
 
             JButton createBillBtn = new JButton("Tạo Hóa Đơn Mới");
-            createBillBtn.setBounds(698, 482, 160, 30);
+            createBillBtn.setBounds(708, 43, 150, 30);
             createBillBtn.setFont(new Font("Tahoma", Font.PLAIN, 14));
             createBillBtn.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
@@ -129,12 +129,27 @@ import util.GenNewId;
             JButton chitietBill = new JButton("Xem chi tiết");
             chitietBill.addActionListener(new ActionListener() {
             	public void actionPerformed(ActionEvent e) {
-            		
+            			int selectedIndex = table.getSelectedRow();
+            			System.out.println(selectedIndex);
+            			Bill selectedBill = bills.get(selectedIndex);
+//            			System.out.println(selectedBill.getProductExpense());
+            			new DetailBillView(selectedBill).setVisible(true);
+            			
             	}
             });
             chitietBill.setFont(new Font("Tahoma", Font.PLAIN, 14));
             chitietBill.setBounds(10, 482, 160, 30);
             contentPane.add(chitietBill);
+            
+            JButton btnNewButton = new JButton("Thoát");
+            btnNewButton.addActionListener(new ActionListener() {
+            	public void actionPerformed(ActionEvent e) {
+            		dispose();
+            	}
+            });
+            btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
+            btnNewButton.setBounds(708, 482, 150, 30);
+            contentPane.add(btnNewButton);
 
             DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
             centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
