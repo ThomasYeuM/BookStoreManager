@@ -2,25 +2,49 @@ package view;
 
 import java.awt.EventQueue;
 import java.awt.Font;
-import javax.swing.*;
+import java.util.HashMap;
+import java.util.Vector;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 import model.Bill;
 import model.Book;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Vector;
+public class DetailBillView extends JFrame {
 
-public class BillDetailView extends JFrame {
-    private JPanel contentPane;
-    private JTable table;
-    private DefaultTableModel tableModel;
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private static Bill bill;
+	
+	private JTable table;
+	private DefaultTableModel tableModel;
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					DetailBillView frame = new DetailBillView(bill);
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
-    public BillDetailView(Bill bill) {
+	/**
+	 * Create the frame.
+	 */
+	public DetailBillView(Bill bill) {    
+
+        setTitle("Chi Tiết Hóa Đơn");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 600, 400);
         contentPane = new JPanel();
@@ -41,25 +65,36 @@ public class BillDetailView extends JFrame {
         dateLabel.setBounds(10, 80, 300, 20);
         contentPane.add(dateLabel);
 
-        String[] columnNames = { "Tác Phẩm", "Số Lượng", "Giá" };
+        String[] columnNames = {"Tác Phẩm", "Số Lượng", "Giá"};
         tableModel = new DefaultTableModel(columnNames, 0);
         table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setBounds(10, 120, 560, 200);
         contentPane.add(scrollPane);
 
-        // Thêm danh sách sách từ hóa đơn vào bảng
         HashMap<Book, Integer> books = bill.getBooks();
-        for (Book book : books.keySet()) {
-            Vector<Object> row = new Vector<>();
-            row.add(book.getName());
-            row.add(books.get(book));
-            row.add(book.getPrice());
-            tableModel.addRow(row);
+        if (books != null && !books.isEmpty()) {
+            for (Book book : books.keySet()) {
+                Vector<Object> row = new Vector<>();
+                row.add(book.getName());
+                row.add(books.get(book));
+                row.add(book.getPrice());
+                tableModel.addRow(row);
+            }
         }
+
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+
 
         JLabel totalLabel = new JLabel("Tổng Tiền: " + bill.getProductExpense());
         totalLabel.setBounds(400, 330, 150, 20);
         contentPane.add(totalLabel);
     }
+	
+
 }
