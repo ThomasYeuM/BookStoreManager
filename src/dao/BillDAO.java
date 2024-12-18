@@ -12,23 +12,27 @@ public class BillDAO implements DAO<Bill> {
 	String FILE_PATH = "src/db/bills.txt";
 	private final FileConnector<Bill> fileConnector = new FileConnector<Bill>();
 	@Override
-	public List getAll() throws ClassNotFoundException, IOException {
+	public List<Bill> getAll() throws ClassNotFoundException, IOException {
 		// TODO Auto-generated method stub
 		return fileConnector.readFromFile(FILE_PATH);
 	}
 
 	@Override
 	public boolean add(Bill newBill) throws ClassNotFoundException, IOException {
-		// TODO Auto-generated method stub
-		List<Bill> bills = getAll();
-		for(Bill bill: bills) {
-			if(bill.getId() == newBill.getId()) {
-				return false;
-			}
-		}
-		fileConnector.writeToFile(FILE_PATH, bills);
-		return true;
+	    List<Bill> bills = getAll();
+	    // Kiểm tra xem ID đã tồn tại chưa
+	    for (Bill bill : bills) {
+	        if (bill.getId() == newBill.getId()) {
+	            return false;
+	        }
+	    }
+	    // Thêm hóa đơn mới vào danh sách
+	    bills.add(newBill);
+	    // Ghi lại vào file
+	    fileConnector.writeToFile(FILE_PATH, bills);
+	    return true;
 	}
+
 
 	@Override
 	public boolean update(Bill updatedBill) throws ClassNotFoundException, IOException {
@@ -55,15 +59,14 @@ public class BillDAO implements DAO<Bill> {
 
 	@Override
 	public Bill get(Predicate<Bill> predicate) throws ClassNotFoundException, IOException {
-		// TODO Auto-generated method stub
-		List<Bill> bills = fileConnector.readFromFile(FILE_PATH);
-		for (Bill bill : bills) {
-			if (predicate.test(bill)) {
-				return bill;
-			}
-		}
-
-		return null;
+	    List<Bill> bills = fileConnector.readFromFile(FILE_PATH);
+	    for (Bill bill : bills) {
+	        if (predicate.test(bill)) {
+	            return bill;
+	        }
+	    }
+	    return null;
 	}
+
 	
 }

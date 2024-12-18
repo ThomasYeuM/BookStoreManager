@@ -14,9 +14,6 @@ public class main {
 				try {
 
 					LoginView frame = new LoginView();
-//					HomepageView frame = new HomepageView();
-					
-
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

@@ -57,7 +57,7 @@ public class BookManagementView extends JFrame {
     	    }
     	});
   
-        setBounds(100, 100, 888, 600);
+        setBounds(100, 100, 1103, 600);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
@@ -65,27 +65,24 @@ public class BookManagementView extends JFrame {
 
         JLabel lblTitle = new JLabel("Danh sách sản phẩm");
         lblTitle.setFont(new Font("Tahoma", Font.BOLD, 24));
-        lblTitle.setBounds(312, 10, 249, 87);
+        lblTitle.setBounds(420, 10, 249, 87);
         contentPane.add(lblTitle);
 
         table = new JTable();
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(20, 100, 844, 400);
+        scrollPane.setBounds(20, 100, 1059, 400);
         contentPane.add(scrollPane);
 
         loadBookData();
 
- 
-        
         JButton doneBtn = new JButton("Xong");
 		doneBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				 new HomepageView("").setVisible(true);
 			}
 		});
 		doneBtn.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		doneBtn.setBounds(733, 510, 131, 43);
+		doneBtn.setBounds(948, 510, 131, 43);
 		contentPane.add(doneBtn);
         
         JButton addNewBookBtn = new JButton("Thêm Sách Mới");
@@ -105,11 +102,7 @@ public class BookManagementView extends JFrame {
         suaSachBtn.setBounds(199, 510, 156, 43);
         suaSachBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-
-
 				editSelectedBook();
-				
 			}
 		});
         contentPane.add(suaSachBtn);
@@ -218,7 +211,7 @@ public class BookManagementView extends JFrame {
 		int selectedRow = table.getSelectedRow();
 		
 		if (selectedRow != -1) {
-			DefaultTableModel model = (DefaultTableModel) table.getModel();
+
 
 			List<Book> books = null;
 			try {

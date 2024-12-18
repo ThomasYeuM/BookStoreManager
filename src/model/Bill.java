@@ -9,8 +9,8 @@ public class Bill implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private String customerName;
-	private int adminID;
-	private Date date;
+	private String adminName;
+	private String date;
 	private HashMap<Book, Integer> Books;
 	private double ProductExpense;
 	public Bill() {
@@ -27,16 +27,16 @@ public class Bill implements Serializable{
 	public void setCustomerName(String customerName) {
 		this.customerName = customerName;
 	}
-	public int getAdminID() {
-		return adminID;
+	public String getAdminID() {
+		return adminName;
 	}
-	public void setAdminID(int adminID) {
-		this.adminID = adminID;
+	public void setAdminID(String adminName) {
+		this.adminName = adminName;
 	}
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 	public HashMap<Book, Integer> getBooks() {
@@ -54,12 +54,12 @@ public class Bill implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	public Bill(int id, String customerName, int adminID, Date date, HashMap<Book, Integer> books,
+	public Bill(int id, String customerName, String adminName, String date, HashMap<Book, Integer> books,
 			double productExpense) {
 		super();
 		this.id = id;
 		this.customerName = customerName;
-		this.adminID = adminID;
+		this.adminName = adminName;
 		this.date = date;
 		Books = books;
 		ProductExpense = productExpense;
