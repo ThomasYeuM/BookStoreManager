@@ -4,6 +4,12 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -18,21 +24,26 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+
+import dao.BillDAO;
+
 import javax.swing.SwingConstants;
 
 import model.Bill;
 import model.Book;
+import util.GenNewId;
 
 
 public class BillView extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
-    private JTextField getNameCusTf;
+    private static JTextField getNameCusTf;
     private JTable table;
-    private DefaultTableModel tableModel;
-    private JLabel totalAmountLabel;
+    private static DefaultTableModel tableModel;
+    private static JLabel totalAmountLabel;
     private static String Username;
+    private static HashMap<Book, Integer> listBook;
     /**
      * Launch the application.
      */
@@ -40,7 +51,7 @@ public class BillView extends JFrame {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    BillView frame = new BillView();
+                    BillView frame = new BillView(Username);
                     frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -51,9 +62,27 @@ public class BillView extends JFrame {
 
     /**
      * Create the frame.
+     * @param Username 
      */
-    public BillView() {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    public BillView(String Username) {
+        this.Username = Username;
+    	setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+    	addWindowListener(new WindowAdapter() {
+    	    @Override
+    	    public void windowClosing(WindowEvent e) {
+    	        // Show confirmation dialog
+    	        if (JOptionPane.showConfirmDialog(
+    	            null, 
+    	            "Do you really want to exit?", 
+    	            "Confirm", 
+    	            JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+
+    	            dispose();
+
+    	        }
+    	    }
+    	});
+
         setBounds(100, 100, 667, 601);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -64,8 +93,12 @@ public class BillView extends JFrame {
         JButton addBillBtn = new JButton("Tạo Hóa Đơn");
         addBillBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+            	AddNewBill();
+            	dispose();
                 BillManagementView frame = new BillManagementView(Username);
+                frame.loadBillData();
                 frame.setVisible(true);
+                
             }
         });
         addBillBtn.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -129,10 +162,11 @@ public class BillView extends JFrame {
         setTitle("Danh sách sản phẩm sắp mua");
     }
 
-    private void openAddBookDialog() {
+
+	private void openAddBookDialog() {
         AddABookToBillView addBookView = new AddABookToBillView();
         addBookView.setVisible(true);
-
+        listBook = new HashMap<Book, Integer>();
         addBookView.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosed(java.awt.event.WindowEvent e) {
@@ -142,6 +176,8 @@ public class BillView extends JFrame {
                 if (bookName != null && quantity > 0) {
                     addBookToTable(bookName, quantity, price * quantity);
                 }
+                Book book = new Book(bookName,price);
+                listBook.put(book, quantity);
             }
         });
     }
@@ -155,7 +191,7 @@ public class BillView extends JFrame {
         updateTotalAmount();
     }
 
-    private double updateTotalAmount() {
+    private static double updateTotalAmount() {
         double totalAmount = 0;
         for (int i = 0; i < tableModel.getRowCount(); i++) {
             totalAmount += (double) tableModel.getValueAt(i, 2);
@@ -174,10 +210,36 @@ public class BillView extends JFrame {
         }
     }
 
-    public String getCustomerName() {
-    	return getNameCusTf.getText();
+    public void AddNewBill() {
+    	String customerName = getNameCusTf.getText();
+    	double totalAmount = updateTotalAmount();
+    	int newBillId = 0;
+    	try {
+			newBillId = GenNewId.getNewBillId();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        LocalDateTime now = LocalDateTime.now();
+        
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy");
+        String formattedDateTime = now.format(formatter);
+    	Bill bill = new Bill(newBillId, customerName, Username, formattedDateTime, listBook, totalAmount);
+        System.out.println("User name:" +Username);
+    	BillDAO billDao = new BillDAO();
+    	try {
+			billDao.add(bill);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
-    public double getAllBillPrice() {
-    	return updateTotalAmount();
-    }
+
+
 }

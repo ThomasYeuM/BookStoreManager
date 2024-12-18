@@ -18,7 +18,7 @@ public class Quantity extends JFrame {
 	private JPanel contentPane;
 	private JTextField textField;
 	private JButton btnNewButton;
-	private int quantity = -1; // Lưu trữ số lượng nhập, mặc định là -1 (chưa nhập)
+	private int quantity = -1; 
 
 	/**
 	 * Launch the application.
@@ -64,6 +64,7 @@ public class Quantity extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					int qty = Integer.parseInt(textField.getText());
+					
 					if (qty > 0) {
 						quantity = qty; // Lưu số lượng
 						dispose(); // Đóng cửa sổ
@@ -80,9 +81,7 @@ public class Quantity extends JFrame {
 		contentPane.add(btnNewButton);
 	}
 
-	/**
-	 * Phương thức trả về số lượng nhập bởi người dùng
-	 */
+
 	public int getQuantity() {
 		return quantity;
 	}

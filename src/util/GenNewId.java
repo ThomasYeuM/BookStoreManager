@@ -7,6 +7,7 @@ import dao.BillDAO;
 import dao.BookDao;
 import dao.CategoryDAO;
 import dao.UserDao;
+import model.Bill;
 import model.User;
 
 public class GenNewId {
@@ -61,10 +62,11 @@ public class GenNewId {
 	}
 
 	public static int getNewBillId() throws ClassNotFoundException, IOException {
-		int size = billDao.getAll().size();
-		if(size == 0) {
-			return 1;
-		}
-		return ((User) billDao.getAll().get(billDao.getAll().size() - 1)).getId() + 1;
+	    int size = billDao.getAll().size();
+	    if (size == 0) {
+	        return 1;
+	    }
+	    return  billDao.getAll().get(billDao.getAll().size() - 1).getId() + 1;
 	}
+
 }

@@ -39,7 +39,7 @@ public class HomepageView extends JFrame {
 	public HomepageView(String Username) {
 		this.Username = Username;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1300, 750);
+		setBounds(100, 100, 685, 750);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -53,9 +53,6 @@ public class HomepageView extends JFrame {
 				BookManagementView bmv;
 				bmv = new BookManagementView();
 				bmv.setVisible(true);
-			
-
-
 			}
 		});
 		qlySachBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -77,31 +74,47 @@ public class HomepageView extends JFrame {
 		JButton qlyTaiKhoanKHbtn = new JButton("Quản lý tài khoản");
 		qlyTaiKhoanKHbtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Khi nhấn vào nút, mở AccountManagementView
                 AccountManagementView amv = new AccountManagementView();
                 amv.setVisible(true);
                 
             }
         });
 		qlyTaiKhoanKHbtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		qlyTaiKhoanKHbtn.setBounds(682, 25, 221, 50);
+		qlyTaiKhoanKHbtn.setBounds(418, 273, 221, 50);
 		contentPane.add(qlyTaiKhoanKHbtn);
 		
 		JButton chartsbtn = new JButton("Thống kê");
 		chartsbtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		chartsbtn.setBounds(983, 25, 221, 50);
+		chartsbtn.setBounds(125, 299, 221, 50);
 		contentPane.add(chartsbtn);
 		
-		JButton qlyCategory = new JButton("Quản lý thể loại");
-		qlyCategory.addActionListener(new ActionListener() {
+		JButton qlyCategoryBtn = new JButton("Quản lý thể loại");
+		qlyCategoryBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CategoryManagementView categoryManagement = new CategoryManagementView();
 				categoryManagement.setVisible(true);
 			}
 		});
-		qlyCategory.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		qlyCategory.setBounds(80, 120, 221, 50);
-		contentPane.add(qlyCategory);
+
+
+		qlyCategoryBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		qlyCategoryBtn.setBounds(80, 120, 221, 50);
+		contentPane.add(qlyCategoryBtn);
+		
+		JButton doiMatKhaubtn = new JButton("Đổi mật khẩu");
+		doiMatKhaubtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                AccountManagementView amv = new AccountManagementView();
+                amv.setVisible(true);
+                
+            }
+        });
+		doiMatKhaubtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		doiMatKhaubtn.setBounds(400, 120, 221, 50);
+		contentPane.add(doiMatKhaubtn);
+		
+		
+
 
 	}
 

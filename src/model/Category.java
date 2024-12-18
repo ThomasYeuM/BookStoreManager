@@ -1,6 +1,7 @@
  package model;
 
 import java.io.Serializable;
+
 import java.util.Objects;
 
 public class Category implements Serializable {
@@ -68,3 +69,5 @@ public class Category implements Serializable {
 	}
 
 }
+
+

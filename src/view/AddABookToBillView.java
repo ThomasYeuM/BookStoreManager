@@ -29,12 +29,12 @@ public class AddABookToBillView extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable table;
-	private BookDao BookDAO;
 	private JLabel lblNewLabel;
 	private JButton addBtn;
 	private String selectedBookName;
 	private int selectedQuantity;
 	private double selectedPrice;
+	private BookDao BookDAO = new BookDao();
 	public String getSelectedBookName() {
 		return selectedBookName;
 	}
@@ -76,10 +76,10 @@ public class AddABookToBillView extends JFrame {
 		contentPane.add(addBtn);
 	}
 
+	
 	private void loadBookData() {
 		String[] columnNames = { "ID", "Tên Sách", "Số Lượng", "Giá", "Tác Giả", "Mô Tả" };
 		DefaultTableModel model = new DefaultTableModel(columnNames, 0);
-		BookDAO = new BookDao();
 		List<Book> books;
 		try {
 			books = BookDAO.getAll();
@@ -111,6 +111,17 @@ public class AddABookToBillView extends JFrame {
 
 	private void addBook() {
 		int selectedIndex = table.getSelectedRow();
+		List<Book> book = null;
+		try {
+			book = BookDAO.getAll();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Book selectedBook = book.get(selectedIndex);
 		if (selectedIndex == -1) {
 			JOptionPane.showMessageDialog(this, "Vui lòng chọn một cuốn sách để thêm!", "Thông báo",
 					JOptionPane.WARNING_MESSAGE);
@@ -119,14 +130,18 @@ public class AddABookToBillView extends JFrame {
 
 		selectedBookName = table.getValueAt(selectedIndex, 1).toString();
 		 selectedPrice = (Double) table.getValueAt(selectedIndex, 3);
-		System.out.println(selectedPrice);
 		Quantity qtyFrame = new Quantity();
 		qtyFrame.setVisible(true);
-
+		
 		qtyFrame.addWindowListener(new java.awt.event.WindowAdapter() {
 			@Override
 			public void windowClosed(java.awt.event.WindowEvent e) {
 				selectedQuantity = qtyFrame.getQuantity(); 
+				if ( selectedQuantity > selectedBook.getQty()) {
+					JOptionPane.showMessageDialog(AddABookToBillView.this, "Số lượng sách không đủ, vui lòng mua ít hơn!", "Thông báo",
+							JOptionPane.WARNING_MESSAGE);
+					return;
+				}
 				if (selectedQuantity <= 0) {
 					JOptionPane.showMessageDialog(AddABookToBillView.this, "Số lượng phải lớn hơn 0!", "Thông báo",
 							JOptionPane.WARNING_MESSAGE);
@@ -136,11 +151,17 @@ public class AddABookToBillView extends JFrame {
 
 				JOptionPane.showMessageDialog(AddABookToBillView.this, "Thêm sách thành công!", "Thông báo",
 						JOptionPane.INFORMATION_MESSAGE);
+				selectedBook.setQty(selectedBook.getQty() - selectedQuantity);
+				try {
+					BookDAO.update(selectedBook);
+				} catch (ClassNotFoundException e1) {
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 				dispose();
 			}
 		});
 	}
-//	public String getCustomerName() {
-//		return 
-//	}
+
 }
