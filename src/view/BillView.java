@@ -43,7 +43,7 @@ public class BillView extends JFrame {
 	private static DefaultTableModel tableModel;
 	private static JLabel totalAmountLabel;
 	private static String Username;
-	private static HashMap<Book, Integer> listBook;
+	private static HashMap<Book, Integer> listBook= new HashMap<Book, Integer>();
 	private static String CustomerName;
 	/**
 	 * Launch the application.
@@ -94,10 +94,9 @@ public class BillView extends JFrame {
 		addBillBtn.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		addBillBtn.setBounds(515, 25, 138, 30);
 
-		// Căn chỉnh văn bản và biểu tượng
-		addBillBtn.setHorizontalTextPosition(JButton.RIGHT); // Đặt văn bản ở bên phải biểu tượng
-		addBillBtn.setVerticalTextPosition(JButton.CENTER); // Đặt văn bản ở giữa theo chiều dọc
-		addBillBtn.setIconTextGap(10); // Khoảng cách giữa biểu tượng và văn bản
+		addBillBtn.setHorizontalTextPosition(JButton.RIGHT); 
+		addBillBtn.setVerticalTextPosition(JButton.CENTER);
+		addBillBtn.setIconTextGap(10);
 
 		contentPane.add(addBillBtn);
 
@@ -183,7 +182,6 @@ public class BillView extends JFrame {
 	private void openAddBookDialog() {
 		AddABookToBillView addBookView = new AddABookToBillView();
 		addBookView.setVisible(true);
-		listBook = new HashMap<Book, Integer>();
 		addBookView.addWindowListener(new java.awt.event.WindowAdapter() {
 			@Override
 			public void windowClosed(java.awt.event.WindowEvent e) {
@@ -192,9 +190,9 @@ public class BillView extends JFrame {
 				double price = addBookView.getSelectedPrice();
 				if (bookName != null && quantity > 0) {
 					addBookToTable(bookName, quantity, price * quantity);
+					Book book = new Book(bookName, price);
+					listBook.put(book, quantity);
 				}
-				Book book = new Book(bookName, price);
-				listBook.put(book, quantity);
 			}
 		});
 	}
@@ -248,9 +246,7 @@ public class BillView extends JFrame {
 	    LocalDateTime now = LocalDateTime.now();
 	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy");
 	    String formattedDateTime = now.format(formatter);
-
 	    Bill bill = new Bill(newBillId, CustomerName, Username, formattedDateTime, listBook, totalAmount);
-	    System.out.println("User name: " + Username);
 
 	    BillDAO billDao = new BillDAO();
 	    try {

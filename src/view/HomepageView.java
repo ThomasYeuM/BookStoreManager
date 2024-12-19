@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
@@ -26,10 +27,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.awt.event.ActionEvent;
 
+
 import model.Bill;
 import model.User;
 
 public class HomepageView extends JFrame {
+
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
@@ -128,6 +131,19 @@ public class HomepageView extends JFrame {
         chartsbtn.setIcon(new ImageIcon(getClass().getResource("/resources/description.png")));
         chartsbtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
         chartsbtn.setBounds(489, 536, 292, 107);
+        chartsbtn.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+		        try {
+		            BillDAO billDao = new BillDAO();
+		            List<Bill> bills = billDao.getAll(); 
+		            StatisticsView statisticsView = new StatisticsView(bills);
+		            statisticsView.setVisible(true);
+		        } catch (Exception ex) {
+		            JOptionPane.showMessageDialog(null, "Không thể tải dữ liệu thống kê.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+		            ex.printStackTrace();
+		        }
+		    }
+        });
         contentPane.add(chartsbtn);
 
         JButton qlyCategoryBtn = new JButton("Quản lý thể loại");
@@ -234,6 +250,7 @@ public class HomepageView extends JFrame {
 		billTitle.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		billTitle.setBounds(111, 11, 139, 21);
 		billPanel.add(billTitle);
+
 
 		BillDAO billDAO = new BillDAO();
 		BillController billController = new BillController(billDAO, null);
