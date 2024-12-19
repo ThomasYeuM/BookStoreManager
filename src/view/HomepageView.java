@@ -18,6 +18,7 @@ import javax.swing.border.EmptyBorder;
 
 import dao.BillDAO;
 import model.Bill;
+import javax.swing.JLabel;
 
 
 public class HomepageView extends JFrame {
@@ -48,7 +49,7 @@ public class HomepageView extends JFrame {
 	public HomepageView(String Username) {
 		this.Username = Username;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1300, 750);
+		setBounds(100, 100, 1207, 626);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -65,7 +66,7 @@ public class HomepageView extends JFrame {
 			}
 		});
 		qlySachBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		qlySachBtn.setBounds(80, 25, 221, 50);
+		qlySachBtn.setBounds(58, 383, 221, 50);
 		contentPane.add(qlySachBtn);
 		
 		JButton qlHoaDonbtn = new JButton("Quản lý hóa đơn");
@@ -77,7 +78,7 @@ public class HomepageView extends JFrame {
 			}
 		});
 		qlHoaDonbtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		qlHoaDonbtn.setBounds(381, 25, 221, 50);
+		qlHoaDonbtn.setBounds(345, 383, 221, 50);
 		contentPane.add(qlHoaDonbtn);
 		
 		JButton qlyTaiKhoanKHbtn = new JButton("Quản lý tài khoản");
@@ -97,23 +98,21 @@ public class HomepageView extends JFrame {
 
                 amv.setVisible(true);
 
-                
-
             }
         });
 		qlyTaiKhoanKHbtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		qlyTaiKhoanKHbtn.setBounds(682, 25, 221, 50);
+		qlyTaiKhoanKHbtn.setBounds(633, 508, 221, 50);
 		contentPane.add(qlyTaiKhoanKHbtn);
 		
 		JButton chartsbtn = new JButton("Thống kê");
 		chartsbtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		chartsbtn.setBounds(983, 25, 221, 50);
+		chartsbtn.setBounds(914, 383, 221, 50);
 		contentPane.add(chartsbtn);
 		chartsbtn.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        try {
 		            BillDAO billDao = new BillDAO();
-		            List<Bill> bills = billDao.getAll(); // Lấy danh sách hóa đơn từ DAO
+		            List<Bill> bills = billDao.getAll(); 
 		            StatisticsView statisticsView = new StatisticsView(bills);
 		            statisticsView.setVisible(true);
 		        } catch (Exception ex) {
@@ -133,7 +132,7 @@ public class HomepageView extends JFrame {
 		});
 
 		qlyCategoryBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		qlyCategoryBtn.setBounds(80, 120, 221, 50);
+		qlyCategoryBtn.setBounds(58, 508, 221, 50);
 		contentPane.add(qlyCategoryBtn);
 		
 		JButton doiMatKhaubtn = new JButton("Đổi mật khẩu");
@@ -145,32 +144,30 @@ public class HomepageView extends JFrame {
             }
         });
         doiMatKhaubtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        doiMatKhaubtn.setBounds(400, 120, 221, 50);
+        doiMatKhaubtn.setBounds(345, 508, 221, 50);
         contentPane.add(doiMatKhaubtn);
         JButton dangXuatBtn = new JButton("Đăng xuất");
 		dangXuatBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Quay lại trang đăng nhập
 				LoginView loginView = new LoginView();
 				loginView.setVisible(true);
-				HomepageView.this.setVisible(false); // Ẩn trang chủ
+				HomepageView.this.setVisible(false); 
 			}
 		});
 		dangXuatBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		dangXuatBtn.setBounds(700, 120, 221, 50);
+		dangXuatBtn.setBounds(914, 508, 221, 50);
 		contentPane.add(dangXuatBtn);
 		
 		JButton taoHoaDonBtn = new JButton("Tạo hóa đơn");
 		taoHoaDonBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		taoHoaDonBtn.setBounds(983, 120, 221, 50); // Đặt vị trí và kích thước cho nút
+		taoHoaDonBtn.setBounds(633, 383, 221, 50); 
 		taoHoaDonBtn.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
-		        // Mở cửa sổ BillView cho người dùng
-		        BillView billView = new BillView(Username); // Truyền username vào constructor
-		        billView.setVisible(true); // Hiển thị cửa sổ tạo hóa đơn
+		        BillView billView = new BillView(Username);
+		        billView.setVisible(true); 
 		    }
 		});
 		contentPane.add(taoHoaDonBtn);
+		
 	}
-
 }

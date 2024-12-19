@@ -46,7 +46,7 @@ public class StatisticsView extends JFrame {
         // Tạo bản đồ để lưu tổng thu nhập theo tháng
         Map<String, Double> incomeByMonth = new HashMap<>();
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy"); // Định dạng mới
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy"); // Định dạng ngày
 
         for (Bill bill : bills) {
             try {
@@ -55,8 +55,7 @@ public class StatisticsView extends JFrame {
                 String month = date.getMonthValue() + "/" + date.getYear(); // Tháng/Năm
 
                 // Cộng dồn thu nhập theo tháng
-                incomeByMonth.put(month,
-                    incomeByMonth.getOrDefault(month, 0.0) + bill.getProductExpense());
+                incomeByMonth.put(month, incomeByMonth.getOrDefault(month, 0.0) + bill.getProductExpense());
             } catch (DateTimeParseException e) {
                 System.err.println("Lỗi định dạng ngày: " + bill.getDate());
                 e.printStackTrace();
@@ -66,13 +65,17 @@ public class StatisticsView extends JFrame {
             }
         }
 
-        // Thêm dữ liệu vào dataset
-        for (Map.Entry<String, Double> entry : incomeByMonth.entrySet()) {
-            dataset.addValue(entry.getValue(), "Thu nhập", entry.getKey());
+        // Thêm tất cả các tháng trong năm (1-12) vào dataset, bao gồm các tháng không có thu nhập
+        int currentYear = LocalDate.now().getYear();
+        for (int month = 1; month <= 12; month++) {
+            String monthKey = month + "/" + currentYear;
+            double income = incomeByMonth.getOrDefault(monthKey, 0.0);
+            dataset.addValue(income, "Thu nhập", monthKey); // Thêm tháng vào dataset
         }
 
         return dataset;
     }
+
 
 
 }
