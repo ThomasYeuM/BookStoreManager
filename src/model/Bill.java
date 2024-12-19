@@ -62,7 +62,12 @@ public class Bill implements Serializable{
 		this.adminName = adminName;
 		this.date = date;
 		Books = books;
-		ProductExpense = productExpense;
+		this.ProductExpense = 0;
+		calcTotal();
 	}
-
+	public void calcTotal() {
+		for (Book book : Books.keySet()) {
+			ProductExpense += book.getPrice() * Books.get(book);
+		}
+	}
 }
