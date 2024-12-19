@@ -1,15 +1,24 @@
 package view;
 
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.awt.event.ActionEvent;
+import java.util.List;
+import java.util.Map;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+
+
+import dao.BillDAO;
+import model.Bill;
+
 
 public class HomepageView extends JFrame {
 
@@ -75,12 +84,17 @@ public class HomepageView extends JFrame {
 		qlyTaiKhoanKHbtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 AccountManagementView amv = null;
-				try {
-					amv = new AccountManagementView();
-				} catch (ClassNotFoundException | IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+
+					try {
+						amv = new AccountManagementView();
+					} catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+
                 amv.setVisible(true);
 
                 
@@ -95,7 +109,21 @@ public class HomepageView extends JFrame {
 		chartsbtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		chartsbtn.setBounds(983, 25, 221, 50);
 		contentPane.add(chartsbtn);
-		
+		chartsbtn.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        try {
+		            BillDAO billDao = new BillDAO();
+		            List<Bill> bills = billDao.getAll(); // Lấy danh sách hóa đơn từ DAO
+		            StatisticsView statisticsView = new StatisticsView(bills);
+		            statisticsView.setVisible(true);
+		        } catch (Exception ex) {
+		            JOptionPane.showMessageDialog(null, "Không thể tải dữ liệu thống kê.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+		            ex.printStackTrace();
+		        }
+		    }
+		});
+
+
 		JButton qlyCategoryBtn = new JButton("Quản lý thể loại");
 		qlyCategoryBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
