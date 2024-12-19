@@ -158,54 +158,56 @@ public class BookManagementView extends JFrame {
         }
     }
 
-	private void deleteSelectedBook() {
-		int selectedRow = table.getSelectedRow();
+    private void deleteSelectedBook() {
+        int selectedRow = table.getSelectedRow();
 
-		if (selectedRow != -1) {
-			DefaultTableModel model = (DefaultTableModel) table.getModel();
+        if (selectedRow != -1) {
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
 
-			List<Book> books = null;
-			try {
-				books = bookDAO.getAll();
-			} catch (ClassNotFoundException | IOException e) {
-				e.printStackTrace();
-				JOptionPane.showMessageDialog(this, "Lỗi khi tải danh sách thể loại!", "Lỗi",
-						JOptionPane.ERROR_MESSAGE);
-				return;
-			}
+            List<Book> books = null;
+            try {
+                books = bookDAO.getAll();
+            } catch (ClassNotFoundException | IOException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Lỗi khi tải danh sách sách!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
-			if (selectedRow < books.size()) {
-				Book bookToDelete = books.get(selectedRow);
+            if (selectedRow < books.size()) {
+                Book bookToDelete = books.get(selectedRow);
 
-				try {
-					bookDAO.delete(bookToDelete);
-				} catch (ClassNotFoundException | IOException e) {
-					e.printStackTrace();
-					JOptionPane.showMessageDialog(this, "Lỗi khi xóa thể loại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
+                try {
+                    // Xóa sách khỏi cơ sở dữ liệu
+                    bookDAO.delete(bookToDelete);
+                    // Xóa sách khỏi danh sách
+                    books.remove(bookToDelete);
+                } catch (ClassNotFoundException | IOException e) {
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(this, "Lỗi khi xóa sách!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
-				model.removeRow(selectedRow);
+                // Xóa dòng sách trong bảng
+                model.removeRow(selectedRow);
 
-				try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("src/db/books.txt"))) {
-					oos.writeObject(books);
-				} catch (IOException e) {
-					e.printStackTrace();
-					JOptionPane.showMessageDialog(this, "Lỗi khi ghi dữ liệu vào file!", "Lỗi",
-							JOptionPane.ERROR_MESSAGE);
-					return;
-				}
+                // Lưu lại danh sách sách đã được cập nhật vào file
+                try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("src/db/books.txt"))) {
+                    oos.writeObject(books);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(this, "Lỗi khi ghi dữ liệu vào file!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
-				JOptionPane.showMessageDialog(this, "Thể loại đã được xóa!", "Thông báo",
-						JOptionPane.INFORMATION_MESSAGE);
-			} else {
-				JOptionPane.showMessageDialog(this, "Không tìm thấy thể loại trong danh sách!", "Lỗi",
-						JOptionPane.ERROR_MESSAGE);
-			}
-		} else {
-			JOptionPane.showMessageDialog(this, "Vui lòng chọn một thể loại để xóa!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-		}
-	}
+                JOptionPane.showMessageDialog(this, "Sách đã được xóa!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Không tìm thấy sách trong danh sách!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn một sách để xóa!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
 	
 	private void editSelectedBook() {
 		int selectedRow = table.getSelectedRow();
