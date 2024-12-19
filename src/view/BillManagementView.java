@@ -65,7 +65,7 @@ import util.GenNewId;
     	private JPanel contentPane;
     	private JTable table;
     	private static DefaultTableModel model;
-    	private static String Username; // Đổi thành biến không tĩnh
+    	private static String Username; 
     	private BillView billView;
     	private BillDAO billDao; 
         public static void main(String[] args) {
@@ -130,9 +130,7 @@ import util.GenNewId;
             chitietBill.addActionListener(new ActionListener() {
             	public void actionPerformed(ActionEvent e) {
             			int selectedIndex = table.getSelectedRow();
-            			System.out.println(selectedIndex);
             			Bill selectedBill = bills.get(selectedIndex);
-//            			System.out.println(selectedBill.getProductExpense());
             			new DetailBillView(selectedBill).setVisible(true);
             			
             	}

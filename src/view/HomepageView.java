@@ -4,18 +4,17 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.category.DefaultCategoryDataset;
+
 
 import dao.BillDAO;
 import model.Bill;
@@ -49,7 +48,7 @@ public class HomepageView extends JFrame {
 	public HomepageView(String Username) {
 		this.Username = Username;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 685, 750);
+		setBounds(100, 100, 1300, 750);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -84,7 +83,18 @@ public class HomepageView extends JFrame {
 		JButton qlyTaiKhoanKHbtn = new JButton("Quản lý tài khoản");
 		qlyTaiKhoanKHbtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                AccountManagementView amv = new AccountManagementView();
+                AccountManagementView amv = null;
+
+					try {
+						amv = new AccountManagementView();
+					} catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+
                 amv.setVisible(true);
 
                 
@@ -92,53 +102,28 @@ public class HomepageView extends JFrame {
             }
         });
 		qlyTaiKhoanKHbtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		qlyTaiKhoanKHbtn.setBounds(418, 273, 221, 50);
+		qlyTaiKhoanKHbtn.setBounds(682, 25, 221, 50);
 		contentPane.add(qlyTaiKhoanKHbtn);
 		
 		JButton chartsbtn = new JButton("Thống kê");
 		chartsbtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		chartsbtn.setBounds(125, 299, 221, 50);
+		chartsbtn.setBounds(983, 25, 221, 50);
 		contentPane.add(chartsbtn);
 		chartsbtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-				Map<String, Double> revenue = new TreeMap<String, Double>();
-
-				BillDAO billDAO = new BillDAO();
-				Bill billController = new BillController(billDAO, null);
-				try {
-					List<Bill> bills = billController.getAllBills();
-
-					for (int i = 1; i <= 12; i++) {
-						String month = String.format("%02d", i);
-						revenue.put(month, revenue.getOrDefault(month, 0.0));
-					}
-
-					for (Bill bill : bills) {
-						String month = bill.getDate().substring(3, 5);
-						revenue.put(month, revenue.getOrDefault(month, 0.0) + bill.getTotal());
-					}
-
-					for (Map.Entry<String, Double> entry : revenue.entrySet()) {
-						dataset.addValue(entry.getValue(), "Doanh thu (đồng)", entry.getKey());
-					}
-
-					JFreeChart barChart = ChartFactory.createBarChart("Thống kê doanh thu", "Tháng", "Doanh thu (đồng)",
-							dataset, PlotOrientation.VERTICAL, true, true, false);
-
-					JFrame frame = new JFrame();
-					frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-					frame.setSize(960, 540);
-					frame.getContentPane().add(new ChartPanel(barChart));
-					frame.setLocationRelativeTo(null);
-					frame.setVisible(true);
-				} catch (ClassNotFoundException | IOException e1) {
-					e1.printStackTrace();
-				}
-
-			}
+		    public void actionPerformed(ActionEvent e) {
+		        try {
+		            BillDAO billDao = new BillDAO();
+		            List<Bill> bills = billDao.getAll(); // Lấy danh sách hóa đơn từ DAO
+		            StatisticsView statisticsView = new StatisticsView(bills);
+		            statisticsView.setVisible(true);
+		        } catch (Exception ex) {
+		            JOptionPane.showMessageDialog(null, "Không thể tải dữ liệu thống kê.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+		            ex.printStackTrace();
+		        }
+		    }
 		});
-		
+
+
 		JButton qlyCategoryBtn = new JButton("Quản lý thể loại");
 		qlyCategoryBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -147,26 +132,45 @@ public class HomepageView extends JFrame {
 			}
 		});
 
-
 		qlyCategoryBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		qlyCategoryBtn.setBounds(80, 120, 221, 50);
 		contentPane.add(qlyCategoryBtn);
 		
 		JButton doiMatKhaubtn = new JButton("Đổi mật khẩu");
-		doiMatKhaubtn.addActionListener(new ActionListener() {
+        doiMatKhaubtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                AccountManagementView amv = new AccountManagementView();
-                amv.setVisible(true);
-                
+                ChangePasswordView changePasswordView = new ChangePasswordView(Username, HomepageView.this);
+                changePasswordView.setVisible(true);
+                HomepageView.this.setVisible(false); 
             }
         });
-		doiMatKhaubtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		doiMatKhaubtn.setBounds(400, 120, 221, 50);
-		contentPane.add(doiMatKhaubtn);
+        doiMatKhaubtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        doiMatKhaubtn.setBounds(400, 120, 221, 50);
+        contentPane.add(doiMatKhaubtn);
+        JButton dangXuatBtn = new JButton("Đăng xuất");
+		dangXuatBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Quay lại trang đăng nhập
+				LoginView loginView = new LoginView();
+				loginView.setVisible(true);
+				HomepageView.this.setVisible(false); // Ẩn trang chủ
+			}
+		});
+		dangXuatBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		dangXuatBtn.setBounds(700, 120, 221, 50);
+		contentPane.add(dangXuatBtn);
 		
-		
-
-
+		JButton taoHoaDonBtn = new JButton("Tạo hóa đơn");
+		taoHoaDonBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		taoHoaDonBtn.setBounds(983, 120, 221, 50); // Đặt vị trí và kích thước cho nút
+		taoHoaDonBtn.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        // Mở cửa sổ BillView cho người dùng
+		        BillView billView = new BillView(Username); // Truyền username vào constructor
+		        billView.setVisible(true); // Hiển thị cửa sổ tạo hóa đơn
+		    }
+		});
+		contentPane.add(taoHoaDonBtn);
 	}
 
 }
