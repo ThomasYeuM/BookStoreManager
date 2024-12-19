@@ -62,8 +62,10 @@ public class AccountManagementView extends JFrame {
 
         JButton btnDeleteAccount = new JButton("Xóa tài khoản");
         btnDeleteAccount.setFont(new Font("Tahoma", Font.PLAIN, 16));
+
         btnDeleteAccount.setBackground(Color.red);
         btnDeleteAccount.setForeground(Color.white);
+
         panelButtons.add(btnDeleteAccount);
 
         JButton btnChangePassword = new JButton("Đổi mật khẩu tài khoản");

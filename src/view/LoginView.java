@@ -17,6 +17,7 @@ import javax.swing.SwingConstants;
 import javax.swing.BorderFactory;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -39,7 +40,7 @@ public class LoginView extends JFrame {
     private ImageUtils imageUtils = new ImageUtils();
 
     public LoginView() {
-        String FILE_PATH = "src/db/users.txt";
+    	String FILE_PATH = "src/db/users.txt";
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1000, 500);
         contentPane = new JPanel();
@@ -156,7 +157,9 @@ public class LoginView extends JFrame {
 
                     JOptionPane.showMessageDialog(LoginView.this, "Đăng nhập thành công.");
                     dispose();
-                    HomepageView homepage = new HomepageView(username);
+
+                    // Truyền quyền và username vào HomepageView
+                    HomepageView homepage = new HomepageView(username, user.getRole());
                     homepage.setVisible(true);
 
                 } catch (ClassNotFoundException | IOException e1) {
@@ -164,6 +167,7 @@ public class LoginView extends JFrame {
                 }
             }
         });
+
 
         // Password visibility toggle button
         try {
